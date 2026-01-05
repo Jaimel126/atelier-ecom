@@ -1,1 +1,31 @@
+{
+  "brandName": "COODE",
+  "tagline": "Defined by Culture",
+  "description": "COODE is a modern clothing brand focused on identity, confidence, and everyday style.",
+  
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#ffffff",
+    "accent": "#e5e5e5"
+  },
+
+  "logo": {
+    "text": "COODE",
+    "image": "assets/images/logo.png"
+  },
+
+  "socials": {
+    "instagram": "",
+    "twitter": "",
+    "tiktok": ""
+  },
+
+  "contact": {
+    "email": "info@coode.com",
+    "phone": "+000000000",
+    "whatsapp": ""
+  },
+
+  "footerText": "© 2026 COODE. All rights reserved."
+}
 

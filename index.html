@@ -1,98 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COODE Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COODE | Modern Essentials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-white text-black font-sans">
 
-  <!-- Navbar -->
-  <nav class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-4 border-b">
-    <h1 class="text-2xl sm:text-3xl font-bold tracking-wide mb-2 sm:mb-0">COODE</h1>
-    <ul class="flex flex-wrap gap-4 sm:gap-6 text-sm uppercase">
-      <li><a href="index.html" class="hover:text-gray-700">Home</a></li>
-      <li><a href="shop.html" class="hover:text-gray-700">Shop</a></li>
-      <li><a href="#" id="contact-us-button" class="hover:text-gray-700">Contact Us</a></li>
-      <li><a href="cart.html" class="hover:text-gray-700">Cart</a></li>
-      <li><a href="about.html" class="hover:text-gray-700">About</a></li>
-    </ul>
-  </nav>
+    <nav class="flex items-center justify-between px-8 py-6 border-b sticky top-0 bg-white z-50">
+        <div class="text-2xl font-bold tracking-tighter">COODE</div>
+        <div class="hidden md:flex space-x-8 items-center">
+            <a href="index.html" class="hover:text-gray-500">Home</a>
+            <a href="shop.html" class="hover:text-gray-500">Shop</a>
+            <a href="cart.html" class="hover:text-gray-500">Cart</a>
+            <a href="about.html" class="hover:text-gray-500">About</a>
+            <button onclick="toggleModal()" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition">Contact Us</button>
+        </div>
+    </nav>
 
-  <!-- Hero Section -->
-  <section class="text-center py-12 px-4 sm:px-8">
-    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Welcome to COODE</h2>
-    <p class="text-gray-700 mb-6">Wear the Difference. Define the Moment.</p>
-    <a href="shop.html" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">Shop Now</a>
-  </section>
+    <header class="h-[80vh] flex flex-col items-center justify-center text-center px-4 bg-gray-50">
+        <h1 class="text-6xl md:text-8xl font-black mb-4">COODE</h1>
+        <p class="text-xl text-gray-600 mb-8 max-w-lg">Minimalist design. Maximum identity. Discover our signature arm-print collection.</p>
+        <a href="shop.html" class="bg-black text-white px-10 py-4 text-lg font-semibold hover:scale-105 transition-transform">SHOP THE COLLECTION</a>
+    </header>
 
-  <!-- About Preview Section -->
-  <section class="py-12 px-4 sm:px-8 max-w-4xl mx-auto text-center">
-    <h3 class="text-2xl font-bold mb-4">About COODE</h3>
-    <p class="text-gray-700">COODE is a modern clothing brand that combines style, comfort, and individuality. Our mission is to bring high-quality streetwear to everyone while celebrating creativity and expression.</p>
-  </section>
-
-  <!-- Contact Modal -->
-  <div id="contact-us-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
-      <button id="close-contact-us" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
-      <h2 class="text-2xl font-bold mb-4">Get in Touch with COODE</h2>
-      <p class="text-gray-700 mb-4">
-        Our COODE Advisors are here to assist you with any questions about our products or orders.
-      </p>
-      <p class="text-xl font-semibold mb-4">
-        Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
-      </p>
-      <form id="contact-us-form" class="flex flex-col gap-4">
-        <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
-        <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
-        <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
-        <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-          Send Message
-        </button>
-      </form>
-      <p class="text-gray-500 mt-4 text-sm">
-        By sending your message, you agree to receive updates from COODE.
-      </p>
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[100]">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4 relative">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 text-2xl">&times;</button>
+            <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+            <form onsubmit="handleContact(event)">
+                <input type="text" placeholder="Name" required class="w-full border p-3 mb-3 rounded">
+                <input type="email" placeholder="Email" required class="w-full border p-3 mb-3 rounded">
+                <textarea placeholder="Message" required class="w-full border p-3 mb-3 rounded h-32"></textarea>
+                <div class="mb-4">
+                    <a href="tel:0880913845" class="text-blue-600 font-bold block">Call: 0880913845</a>
+                </div>
+                <button type="submit" class="w-full bg-black text-white py-3 rounded hover:bg-gray-800">Send Message</button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <!-- JS Scripts -->
-  <script src="js/shop.js"></script> <!-- your main JS if any -->
-
-  <!-- Contact Us Modal JS -->
-  <script>
-    const contactButton = document.getElementById('contact-us-button');
-    const contactModal = document.getElementById('contact-us-modal');
-    const closeContactModal = document.getElementById('close-contact-us');
-
-    contactButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      contactModal.classList.remove('hidden');
-      contactModal.classList.add('flex');
-    });
-
-    closeContactModal.addEventListener('click', () => {
-      contactModal.classList.add('hidden');
-      contactModal.classList.remove('flex');
-    });
-
-    contactModal.addEventListener('click', (e) => {
-      if (e.target === contactModal) {
-        contactModal.classList.add('hidden');
-        contactModal.classList.remove('flex');
-      }
-    });
-
-    document.getElementById('contact-us-form').addEventListener('submit', function(e){
-      e.preventDefault();
-      alert('Thank you! We will contact you soon.');
-      this.reset();
-      contactModal.classList.add('hidden');
-      contactModal.classList.remove('flex');
-    });
-  </script>
-
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+        function handleContact(e) {
+            e.preventDefault();
+            alert('Thank you for contacting COODE!');
+            toggleModal();
+        }
+    </script>
 </body>
 </html>

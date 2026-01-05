@@ -5,205 +5,214 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop | COODE</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
+        /* Smooth transitions for product images */
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
         .product-card:hover img {
             transform: scale(1.05);
         }
+        /* Mobile menu & Cart transitions */
+        .slide-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Hide scrollbar for clean look in cart */
+        #cart-items-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        #cart-items-container::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
     </style>
 </head>
+<body class="bg-white text-black font-sans antialiased">
 
-<body class="bg-white text-black font-sans">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
+                    <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                    <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
+                        Cart
+                        <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
+                    <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
+                </div>
 
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
-            
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
-                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-                <a href="cart.html" class="text-sm font-medium hover:text-gray-500 transition">Cart</a>
-                <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
-                <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
-            </div>
-
-            <div class="md:hidden flex items-center">
-                <button id="mobile-menu-button" class="text-black focus:outline-none p-2" aria-label="Toggle Menu">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path>
-                    </svg>
-                </button>
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-black p-2">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full slide-transition md:hidden">
         <div class="flex justify-end p-6">
-            <button id="close-menu-button" class="text-black p-2">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+            <button onclick="toggleMobileMenu()" class="text-black p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
-
-        <div class="flex flex-col items-center justify-center space-y-8 mt-10">
-            <a href="index.html" class="mobile-link text-2xl font-bold tracking-tight">Home</a>
-            <a href="shop.html" class="mobile-link text-2xl font-bold tracking-tight border-b-2 border-black">Shop</a>
-            <a href="cart.html" class="mobile-link text-2xl font-bold tracking-tight">Cart</a>
-            <a href="about.html" class="mobile-link text-2xl font-bold tracking-tight">About</a>
-            <button onclick="handleMobileContact()" class="mt-4 bg-black text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-800 transition">
-                Contact Us
-            </button>
+        <div class="flex flex-col items-center space-y-8 mt-10">
+            <a href="index.html" class="text-2xl font-bold tracking-tight">Home</a>
+            <a href="shop.html" class="text-2xl font-bold tracking-tight border-b-2 border-black">Shop</a>
+            <button onclick="toggleMobileMenu(); openCart();" class="text-2xl font-bold tracking-tight">Cart</button>
+            <a href="about.html" class="text-2xl font-bold tracking-tight">About</a>
+            <button onclick="toggleMobileMenu(); openModal();" class="mt-4 bg-black text-white px-10 py-4 rounded-full text-lg font-bold">Contact Us</button>
         </div>
     </div>
-</nav>
 
-<script>
-    const mobileMenu = document.getElementById('mobile-menu');
-    const openBtn = document.getElementById('mobile-menu-button');
-    const closeBtn = document.getElementById('close-menu-button');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    <header class="w-full bg-gray-100 h-[30vh] flex items-center justify-center border-b">
+        <div class="text-gray-400 text-xs font-bold uppercase tracking-widest">Collection Hero Banner</div>
+    </header>
 
-    // Toggle Menu Open
-    function toggleMenu() {
-        mobileMenu.classList.toggle('translate-x-full');
-        // Prevent background scrolling when menu is open
-        document.body.classList.toggle('overflow-hidden');
-    }
+    <main class="max-w-7xl mx-auto px-4 py-16">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10" id="product-grid">
+            <script>
+                const products = [
+                    { id: 1, name: "White Sleeve Tee 01", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
+                    { id: 2, name: "White Sleeve Tee 02", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
+                    { id: 3, name: "White Sleeve Tee 03", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
+                    { id: 4, name: "White Sleeve Tee 04", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
+                    { id: 5, name: "Black Sleeve Tee 01", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
+                    { id: 6, name: "Black Sleeve Tee 02", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
+                    { id: 7, name: "Black Sleeve Tee 03", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
+                    { id: 8, name: "Black Sleeve Tee 04", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" }
+                ];
 
-    openBtn.addEventListener('click', toggleMenu);
-    closeBtn.addEventListener('click', toggleMenu);
+                document.write(products.map(p => `
+                    <div class="product-card group flex flex-col">
+                        <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
+                            <img src="${p.img}" class="w-full h-full object-cover">
+                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                ADD TO CART
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-sm font-bold">${p.name}</h3>
+                            <p class="text-gray-500 text-sm">$${p.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `).join(''));
+            </script>
+        </div>
+    </main>
 
-    // Close menu when a link is clicked
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            toggleMenu();
-        });
-    });
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h2 class="text-xl font-black italic tracking-tighter">YOUR CART</h2>
+            <button onclick="closeCart()" class="text-gray-400 hover:text-black">&times;</button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-medium text-gray-500">Subtotal</span>
+                <span id="cart-subtotal" class="text-2xl font-black">$0.00</span>
+            </div>
+            <button class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition">CHECKOUT</button>
+        </div>
+    </div>
 
-    // Special handler for Contact Us from mobile menu
-    function handleMobileContact() {
-        toggleMenu(); // Close mobile menu first
-        setTimeout(() => {
-            if (typeof openModal === "function") {
-                openModal(); // Trigger your existing contact modal
+    <div id="contactModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-black italic mb-6">CONTACT COODE</h2>
+            <form onsubmit="alert('Thank you!'); closeModal(); return false;" class="space-y-4">
+                <input type="text" placeholder="Name" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <input type="email" placeholder="Email" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <textarea placeholder="Message" required class="w-full border-b py-2 outline-none focus:border-black transition"></textarea>
+                <a href="tel:0880913845" class="block text-center text-sm font-bold py-2">CALL: 0880913845</a>
+                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold">SEND</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- CART LOGIC ---
+        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
+
+        function openCart() {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            document.getElementById('cart-panel').classList.remove('translate-x-full');
+            renderCart();
+        }
+
+        function closeCart() {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-panel').classList.add('translate-x-full');
+        }
+
+        function addToCart(name, price, img) {
+            const item = cart.find(i => i.name === name);
+            if (item) item.qty++;
+            else cart.push({ name, price, img, qty: 1 });
+            saveAndSync();
+            openCart();
+        }
+
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveAndSync();
+        }
+
+        function saveAndSync() {
+            localStorage.setItem('coode_cart', JSON.stringify(cart));
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            let total = 0;
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-400 italic py-10">Cart is empty</p>`;
+            } else {
+                container.innerHTML = cart.map((item, i) => {
+                    total += item.price * item.qty;
+                    return `
+                        <div class="flex items-center space-x-4">
+                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold">${item.name}</h4>
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <button onclick="updateQty(${i}, -1)" class="w-6 h-6 border rounded">-</button>
+                                    <span class="text-xs">${item.qty}</span>
+                                    <button onclick="updateQty(${i}, 1)" class="w-6 h-6 border rounded">+</button>
+                                </div>
+                            </div>
+                            <span class="text-sm font-bold">$${(item.price * item.qty).toFixed(2)}</span>
+                        </div>`;
+                }).join('');
             }
-        }, 350); // Small delay to allow menu slide-out animation to finish
-    }
-</script>
-<!-- ================= HERO IMAGE ================= -->
-<header class="w-full h-[30vh] md:h-[50vh] overflow-hidden">
-    <img
-        src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png"
-        alt="COODE Model"
-        class="w-full h-full object-cover"
-    >
-</header>
+            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
+        }
 
-<!-- ================= PRODUCTS ================= -->
-<section class="max-w-7xl mx-auto px-4 py-16">
-    <h2 class="text-2xl font-bold mb-8 text-center">COODE Shirts</h2>
+        // --- UI LOGIC ---
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('translate-x-full');
+        }
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
+        function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
 
-        <!-- White Shirt 1 -->
-        <div class="product-card">
-            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
-                <img src="assets/images/shirt-white-1.png.png"
-                     class="w-full h-full object-cover transition">
-            </div>
-            <div class="mt-4 text-center">
-                <h3 class="text-sm font-medium">COODE White Shirt</h3>
-                <p class="text-sm text-gray-500">$9.99</p>
-                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-
-        <!-- Black Shirt 1 -->
-        <div class="product-card">
-            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
-                <img src="assets/images/shirt-black-1.png.png"
-                     class="w-full h-full object-cover transition">
-            </div>
-            <div class="mt-4 text-center">
-                <h3 class="text-sm font-medium">COODE Black Shirt</h3>
-                <p class="text-sm text-gray-500">$9.99</p>
-                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-
-        <!-- White Shirt 2 -->
-        <div class="product-card">
-            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
-                <img src="assets/images/shirt-white-2.png"
-
-                     class="w-full h-full object-cover transition">
-            </div>
-            <div class="mt-4 text-center">
-                <h3 class="text-sm font-medium">COODE White Shirt</h3>
-                <p class="text-sm text-gray-500">$9.99</p>
-                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-
-        <!-- Black Shirt 2 -->
-        <div class="product-card">
-            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
-                <img src="assets/images/shirt-black-2.png.png"
-                     class="w-full h-full object-cover transition">
-            </div>
-            <div class="mt-4 text-center">
-                <h3 class="text-sm font-medium">COODE Black Shirt</h3>
-                <p class="text-sm text-gray-500">$9.99</p>
-                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= BOTTOM IMAGE ================= -->
-<section class="w-full h-[40vh] md:h-[55vh] overflow-hidden">
-    <img
-        src="assets/images/coode-bag.png.png"
-        alt="COODE signature Bag"
-        class="w-full h-full object-cover"
-    >
-</section>
-
-<!-- ================= CONTACT MODAL ================= -->
-<div id="contactModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-    <div class="bg-white p-8 rounded-xl max-w-sm w-full text-center">
-        <h3 class="text-xl font-bold mb-4">Contact COODE</h3>
-        <p class="text-sm mb-4">Our team is ready to assist you.</p>
-        <p class="font-semibold mb-6">📞 0880913845</p>
-        <button onclick="closeModal()" class="border border-black px-6 py-2 hover:bg-black hover:text-white transition">
-            Close
-        </button>
-    </div>
-</div>
-
-<!-- ================= JS ================= -->
-<script>
-    function openModal() {
-        document.getElementById('contactModal').classList.remove('hidden');
-        document.getElementById('contactModal').classList.add('flex');
-    }
-
-    function closeModal() {
-        document.getElementById('contactModal').classList.add('hidden');
-        document.getElementById('contactModal').classList.remove('flex');
-    }
-</script>
-
+        // Load initial badge state
+        updateCartBadge();
+    </script>
 </body>
 </html>

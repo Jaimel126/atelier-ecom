@@ -3,149 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-brand-name>COODE Shop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <title>COODE Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="font-sans">
+<body class="bg-white text-gray-900">
 
-<body>
+  <!-- Navbar -->
   <nav class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-4 border-b">
     <h1 class="text-2xl sm:text-3xl font-bold tracking-wide mb-2 sm:mb-0" data-brand-name>COODE</h1>
     <ul class="flex flex-wrap gap-4 sm:gap-6 text-sm uppercase">
       <li><a href="index.html" class="hover:text-gray-700">Home</a></li>
       <li><a href="shop.html" class="hover:text-gray-700">Shop</a></li>
+      <li><a href="#" id="contact-button" class="hover:text-gray-700">Contact</a></li>
       <li><a href="cart.html" class="hover:text-gray-700">Cart</a></li>
       <li><a href="about.html" class="hover:text-gray-700">About</a></li>
-      <li><a href="contact.html" class="hover:text-gray-700">Contact</a></li>
     </ul>
   </nav>
 
-  
+  <!-- Category Filter Buttons -->
+  <div class="flex justify-center gap-4 mb-8 mt-6">
+    <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="All">All</button>
+    <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="Shirts">Shirts</button>
+  </div>
 
-  <!<!-- CATEGORY FILTER -->
-<div class="flex justify-center gap-4 mb-8">
-  <button class="filter-btn bg-gray-200 px-4 py-2 rounded" data-category="All">All</button>
-  <button class="filter-btn bg-gray-200 px-4 py-2 rounded" data-category="T-Shirts">T-Shirts</button>
-  <button class="filter-btn bg-gray-200 px-4 py-2 rounded" data-category="Hoodies">Hoodies</button>
-</div>
--- SHOP SECTION --><div class="flex justify-center gap-4 mb-8">
-  <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="All">All</button>
-  <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="T-Shirts">T-Shirts</button>
-  <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="Hoodies">Hoodies</button>
-</div>
-<div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-  <!-- Products will load here -->
-</div>
+  <!-- Products Grid -->
+  <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+    <!-- Products will be injected by JS -->
+  </div>
 
-  <section class="py-16 px-6">
-    <h2 class="text-3xl font-bold mb-8 text-center">Shop Collection</h2>
-    <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      <!-- Products will load here dynamically -->
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
+      <button id="close-contact" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
+      <h2 class="text-2xl font-bold mb-4">Get in Touch with COODE</h2>
+      <p class="text-gray-700 mb-4">
+        Our COODE Advisors are here to help you with any questions about our products or your orders.
+      </p>
+      <p class="text-xl font-semibold mb-4">
+        Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
+      </p>
+      <form id="contact-form" class="flex flex-col gap-4">
+        <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
+        <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
+        <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
+        <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
+          Send Message
+        </button>
+      </form>
+      <p class="text-gray-500 mt-4 text-sm">
+        By sending your message, you agree to receive updates from COODE.
+      </p>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="text-center text-sm py-6 border-t" data-footer>© 2026 COODE. All rights reserved.</footer>
-
-  <!-- JS -->
-  <script src="js/app.js"></script>
+  <!-- JS Scripts -->
   <script src="js/shop.js"></script>
+
+  <!-- Contact Modal Toggle & Form JS -->
+  <script>
+    const contactButton = document.getElementById('contact-button');
+    const modal = document.getElementById('contact-modal');
+    const closeModal = document.getElementById('close-contact');
+
+    contactButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal){
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Thank you! We will contact you soon.');
+      this.reset();
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+  </script>
 
 </body>
 </html>
-<script src="js/shop.js"></script><!-- Contact Us Section -->
-<section id="contact" class="bg-gray-50 py-12 px-4 sm:px-8">
-  <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-4">Get in Touch with COODE</h2>
-    <p class="text-gray-700 mb-6">
-      Our COODE Advisors are here to help you with any questions about our products or your orders. 
-      Reach out and we’ll make sure your experience is smooth and personalized.
-    </p>
-
-    <!-- Phone number -->
-    <p class="text-xl font-semibold mb-4">
-      Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
-    </p>
-
-    <!-- Optional: Quick Interest Form -->
-    <form id="contact-form" class="max-w-md mx-auto flex flex-col gap-4">
-      <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
-      <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
-      <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
-      <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-        Send Message
-      </button>
-    </form>
-
-    <p class="text-gray-500 mt-6 text-sm">
-      By sending your message, you agree to receive updates from COODE.
-    </p>
-  </div>
-</section>
-<script>
-document.getElementById('contact-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Thank you! We will contact you soon.');
-  this.reset();
-});
-</script>
-
-<!-- Contact Modal -->
-<div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-  <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
-    <button id="close-contact" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
-    <h2 class="text-2xl font-bold mb-4">Get in Touch with COODE</h2>
-    <p class="text-gray-700 mb-4">
-      Our COODE Advisors are here to help you with any questions about our products or your orders.
-    </p>
-    <p class="text-xl font-semibold mb-4">
-      Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
-    </p>
-    <form id="contact-form" class="flex flex-col gap-4">
-      <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
-      <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
-      <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
-      <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-        Send Message
-      </button>
-    </form>
-    <p class="text-gray-500 mt-4 text-sm">
-      By sending your message, you agree to receive updates from COODE.
-    </p>
-  </div>
-</div>
-
-<script>
-const contactButton = document.querySelector('nav a[href="contact.html"], nav a[href="#"]'); // adjust if your contact link is different
-const modal = document.getElementById('contact-modal');
-const closeModal = document.getElementById('close-contact');
-
-contactButton.addEventListener('click', (e) => {
-  e.preventDefault(); // prevent page reload
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
-});
-
-closeModal.addEventListener('click', () => {
-  modal.classList.add('hidden');
-  modal.classList.remove('flex');
-});
-
-// Optional: close modal when clicking outside modal content
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
-});
-
-// Contact form alert
-document.getElementById('contact-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Thank you! We will contact you soon.');
-  this.reset();
-  modal.classList.add('hidden');
-  modal.classList.remove('flex');
-});
-</script>

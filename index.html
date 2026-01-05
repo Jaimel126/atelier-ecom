@@ -91,4 +91,35 @@
 </div>
 
 </html>
+<script>
+const contactButton = document.getElementById('contact-us-button');
+const contactModal = document.getElementById('contact-us-modal');
+const closeContactModal = document.getElementById('close-contact-us');
+
+contactButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  contactModal.classList.remove('hidden');
+  contactModal.classList.add('flex');
+});
+
+closeContactModal.addEventListener('click', () => {
+  contactModal.classList.add('hidden');
+  contactModal.classList.remove('flex');
+});
+
+contactModal.addEventListener('click', (e) => {
+  if (e.target === contactModal) {
+    contactModal.classList.add('hidden');
+    contactModal.classList.remove('flex');
+  }
+});
+
+document.getElementById('contact-us-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  alert('Thank you! We will contact you soon.');
+  this.reset();
+  contactModal.classList.add('hidden');
+  contactModal.classList.remove('flex');
+});
+</script>
 

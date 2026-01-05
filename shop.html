@@ -15,23 +15,83 @@
 
 <body class="bg-white text-black font-sans">
 
-<!-- ================= NAVBAR ================= -->
-<nav class="sticky top-0 z-50 bg-white border-b">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="text-2xl font-black">COODE</div>
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
+                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                <a href="cart.html" class="text-sm font-medium hover:text-gray-500 transition">Cart</a>
+                <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
+                <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
+            </div>
 
-        <div class="hidden md:flex space-x-8 items-center">
-            <a href="index.html">Home</a>
-            <a href="shop.html" class="font-bold border-b-2 border-black">Shop</a>
-            <a href="cart.html">Cart</a>
-            <a href="about.html">About</a>
-            <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm">
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="text-black focus:outline-none p-2" aria-label="Toggle Menu">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+        <div class="flex justify-end p-6">
+            <button id="close-menu-button" class="text-black p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-col items-center justify-center space-y-8 mt-10">
+            <a href="index.html" class="mobile-link text-2xl font-bold tracking-tight">Home</a>
+            <a href="shop.html" class="mobile-link text-2xl font-bold tracking-tight border-b-2 border-black">Shop</a>
+            <a href="cart.html" class="mobile-link text-2xl font-bold tracking-tight">Cart</a>
+            <a href="about.html" class="mobile-link text-2xl font-bold tracking-tight">About</a>
+            <button onclick="handleMobileContact()" class="mt-4 bg-black text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-800 transition">
                 Contact Us
             </button>
         </div>
     </div>
 </nav>
 
+<script>
+    const mobileMenu = document.getElementById('mobile-menu');
+    const openBtn = document.getElementById('mobile-menu-button');
+    const closeBtn = document.getElementById('close-menu-button');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    // Toggle Menu Open
+    function toggleMenu() {
+        mobileMenu.classList.toggle('translate-x-full');
+        // Prevent background scrolling when menu is open
+        document.body.classList.toggle('overflow-hidden');
+    }
+
+    openBtn.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu();
+        });
+    });
+
+    // Special handler for Contact Us from mobile menu
+    function handleMobileContact() {
+        toggleMenu(); // Close mobile menu first
+        setTimeout(() => {
+            if (typeof openModal === "function") {
+                openModal(); // Trigger your existing contact modal
+            }
+        }, 350); // Small delay to allow menu slide-out animation to finish
+    }
+</script>
 <!-- ================= HERO IMAGE ================= -->
 <header class="w-full h-[30vh] md:h-[50vh] overflow-hidden">
     <img

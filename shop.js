@@ -1,8 +1,6 @@
 // shop.js
-
 let allProducts = [];
 
-// Load products from products.json
 fetch("data/products.json")
   .then(res => res.json())
   .then(products => {
@@ -13,7 +11,6 @@ fetch("data/products.json")
 
 const container = document.getElementById("products-container");
 
-// Render products dynamically
 function renderProducts(products) {
   container.innerHTML = "";
   products.forEach(product => {
@@ -22,7 +19,7 @@ function renderProducts(products) {
     card.innerHTML = `
       <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover rounded-lg mb-4">
       <h3 class="font-semibold text-lg mb-2">${product.name}</h3>
-      <p class="text-gray-700 mb-2">$${product.price}</p>
+      <p class="text-gray-700 mb-4">$${product.price}</p>
       <button class="bg-black text-white px-4 py-2 uppercase text-sm hover:bg-gray-800 rounded-lg transition-colors"
         onclick="addToCart(${product.id})">
         Add to Cart
@@ -32,7 +29,6 @@ function renderProducts(products) {
   });
 }
 
-// FILTER BUTTONS
 document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const category = btn.dataset.category;
@@ -41,12 +37,10 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   });
 });
 
-// ADD TO CART FUNCTION
 function addToCart(id) {
   const product = allProducts.find(p => p.id === id);
   if(!product) return;
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  // Add quantity support
   const cartItem = cart.find(item => item.id === id);
   if(cartItem){
     cartItem.quantity = (cartItem.quantity || 1) + 1;

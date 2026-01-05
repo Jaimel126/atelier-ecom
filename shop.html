@@ -5,165 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop | COODE</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* Custom smooth transitions */
         .product-card:hover .add-to-cart-btn {
             opacity: 1;
             transform: translateY(0);
         }
-        .modal-transition {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
     </style>
 </head>
+
 <body class="bg-white text-black font-sans antialiased">
 
-    <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="text-sm font-medium hover:text-gray-500">Home</a>
-                    <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-                    <a href="cart.html" class="text-sm font-medium hover:text-gray-500">Cart</a>
-                    <a href="about.html" class="text-sm font-medium hover:text-gray-500">About</a>
-                    <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
-                </div>
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16 items-center">
+            <div class="font-black text-2xl tracking-tight">COODE</div>
 
-                <div class="md:hidden flex items-center">
-                    <button class="text-black" onclick="alert('Menu functionality can be added here')">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
-                </div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-sm hover:text-gray-500">Home</a>
+                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                <a href="cart.html" class="text-sm hover:text-gray-500">Cart</a>
+                <a href="about.html" class="text-sm hover:text-gray-500">About</a>
+                <button class="bg-black text-white px-5 py-2 rounded-full text-sm">
+                    Contact Us
+                </button>
             </div>
-        </div>
-    </nav>
-
-    <!-- Hero Banner -->
-    <header class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
-        <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" 
-             alt="COODE Model" 
-             class="w-full h-full object-cover">
-    </header>
-
-    <!-- Product Grid -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 class="text-2xl font-bold mb-8">Shop Our Collection</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <!-- Product Card 1 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">White Shirt 1</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 2 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">White Shirt 2</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 3 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">Black Shirt 1</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 4 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">Black Shirt 2</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 5 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">White Shirt 3</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 6 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">White Shirt 4</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 7 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">Black Shirt 3</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-
-            <!-- Product Card 8 -->
-            <div class="product-card border rounded-lg p-4 shadow hover:shadow-lg transition relative">
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-400">Image Placeholder</span>
-                </div>
-                <p class="mt-4 font-medium">Black Shirt 4</p>
-                <p class="font-bold mt-1">$9.99</p>
-                <button class="add-to-cart-btn absolute bottom-4 left-4 right-4 bg-black text-white py-2 rounded opacity-0 transform translate-y-4 transition">Add to Cart</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bottom Banner Placeholder -->
-    <section class="w-full h-[30vh] md:h-[50vh] bg-gray-200 flex items-center justify-center mt-12">
-        <span class="text-gray-400 text-xl">Bottom Banner / Bag Image Placeholder</span>
-    </section>
-
-    <!-- Contact Modal -->
-    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center modal-transition">
-        <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/3">
-            <h2 class="text-xl font-bold mb-4">Contact Us</h2>
-            <form onsubmit="alert('Thank you!'); return false;">
-                <input type="text" placeholder="Name" class="w-full mb-2 p-2 border rounded">
-                <input type="email" placeholder="Email" class="w-full mb-2 p-2 border rounded">
-                <textarea placeholder="Message" class="w-full mb-2 p-2 border rounded"></textarea>
-                <p class="mb-2">Call us: <a href="tel:0880913845" class="text-blue-600">0880913845</a></p>
-                <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">Submit</button>
-                <button type="button" onclick="closeModal()" class="ml-2 px-4 py-2 rounded border hover:bg-gray-100 transition">Close</button>
-            </form>
         </div>
     </div>
+</nav>
 
-    <script>
-        function openModal() {
-            document.getElementById('contactModal').classList.remove('hidden');
-        }
-        function closeModal() {
-            document.getElementById('contactModal').classList.add('hidden');
-        }
-    </script>
+<!-- TOP HERO IMAGE -->
+<header class="w-full h-[40vh] md:h-[60vh] overflow-hidden">
+    <img 
+        src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png"
+        alt="COODE Model"
+        class="w-full h-full object-cover"
+    >
+</header>
+
+<!-- SHOP INTRO -->
+<section class="max-w-7xl mx-auto px-4 py-16 text-center">
+    <h1 class="text-3xl md:text-4xl font-black mb-4">COODE Essentials</h1>
+    <p class="text-gray-600 max-w-xl mx-auto">
+        Minimal design. Premium feel. Built for everyday confidence.
+    </p>
+</section>
+
+<!-- PRODUCT GRID (NO IMAGES YET – CLEAN PLACEHOLDERS) -->
+<section class="max-w-7xl mx-auto px-4 pb-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+        <!-- PRODUCT CARD -->
+        <div class="border p-4 text-center product-card">
+            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
+                <span class="text-gray-400 text-sm">Image coming</span>
+            </div>
+            <h3 class="font-semibold">COODE White Shirt</h3>
+            <p class="text-sm text-gray-600">$9.99</p>
+        </div>
+
+        <div class="border p-4 text-center product-card">
+            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
+                <span class="text-gray-400 text-sm">Image coming</span>
+            </div>
+            <h3 class="font-semibold">COODE Black Shirt</h3>
+            <p class="text-sm text-gray-600">$9.99</p>
+        </div>
+
+        <div class="border p-4 text-center product-card">
+            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
+                <span class="text-gray-400 text-sm">Image coming</span>
+            </div>
+            <h3 class="font-semibold">COODE White Shirt</h3>
+            <p class="text-sm text-gray-600">$9.99</p>
+        </div>
+
+        <div class="border p-4 text-center product-card">
+            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
+                <span class="text-gray-400 text-sm">Image coming</span>
+            </div>
+            <h3 class="font-semibold">COODE Black Shirt</h3>
+            <p class="text-sm text-gray-600">$9.99</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- BOTTOM WIDE IMAGE -->
+<section class="w-full h-[40vh] md:h-[55vh] overflow-hidden">
+    <img 
+        src="assets/images/coode-bag.png"
+        alt="COODE Signature Bag"
+        class="w-full h-full object-cover"
+    >
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center py-10 text-sm text-gray-500">
+    © 2026 COODE. All rights reserved.
+</footer>
 
 </body>
 </html>

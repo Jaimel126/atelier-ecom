@@ -1,65 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COODE</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-brand-name>COODE</title>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom config later -->
-</head><style>
-  :root {
-    --primary: #000000;
-    --secondary: #ffffff;
-    --accent: #e5e5e5;
-  }
+  <!-- Optional: dynamic color variables -->
+  <style>
+    :root {
+      --primary: #000000;
+      --secondary: #ffffff;
+      --accent: #e5e5e5;
+    }
 
-  body {
-    color: var(--primary);
-    background-color: var(--secondary);
-  }
+    body {
+      color: var(--primary);
+      background-color: var(--secondary);
+    }
 
-  a {
-    color: var(--accent);
-  }
-</style>
-
-<body class="bg-white text-black font-sans">
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body class="font-sans">
 
   <!-- NAVBAR -->
-  <nav class="flex justify-between items-center px-8 py-6">
-    <h1 class="text-2xl font-bold tracking-wide">COODE</h1>
+  <nav class="flex justify-between items-center px-8 py-6 border-b">
+    <h1 class="text-2xl font-bold tracking-wide" data-brand-name>COODE</h1>
     <ul class="flex gap-6 text-sm uppercase">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="cart.html">Cart</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
-  <section class="h-[80vh] flex items-center justify-center text-center px-6">
-    <div>
-      <h2 class="text-5xl md:text-7xl font-bold mb-6">
-        Defined by Culture
-      </h2>
-      <p class="text-gray-600 max-w-xl mx-auto mb-8">
-        Premium fashion built for identity, confidence, and movement.
-      </p>
-      <a href="shop.html"
-         class="inline-block border border-black px-8 py-3 uppercase text-sm hover:bg-black hover:text-white transition">
-        Shop Collection
-      </a>
-    </div>
+  <!-- HERO SECTION -->
+  <section class="h-[80vh] flex flex-col items-center justify-center text-center px-6">
+    <h2 class="text-5xl md:text-7xl font-bold mb-6" data-brand-tagline>Defined by Culture</h2>
+    <p class="text-gray-600 max-w-xl mb-8">
+      COODE is a modern clothing brand focused on identity, confidence, and everyday style.
+    </p>
+    <a href="shop.html" class="inline-block border border-black px-8 py-3 uppercase text-sm hover:bg-black hover:text-white transition">
+      Shop Collection
+    </a>
+  </section>
+
+  <!-- FEATURE / ABOUT PREVIEW -->
+  <section class="py-16 px-6 text-center">
+    <h3 class="text-3xl font-semibold mb-4">About COODE</h3>
+    <p class="text-gray-700 max-w-2xl mx-auto">
+      We create premium fashion that lets you express yourself, stand out, and feel confident every day.
+    </p>
   </section>
 
   <!-- FOOTER -->
-  <footer class="text-center text-sm py-6 border-t">
-    © 2026 COODE. All rights reserved.
-  </footer>
+  <footer class="text-center text-sm py-6 border-t" data-footer>© 2026 COODE. All rights reserved.</footer>
+
+  <!-- JS: Brand loader -->
+  <script src="js/app.js"></script>
 
 </body>
 </html>
-<script src="js/app.js"></script>
 

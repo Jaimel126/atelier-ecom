@@ -11,22 +11,23 @@ function renderCart() {
   cart.forEach((item, index) => {
     total += item.price * (item.quantity || 1);
 
-    const div = document.createElement("div");
-    div.className = "flex justify-between items-center border p-4 rounded shadow";
-    div.innerHTML = `
-      <div class="flex items-center gap-4">
-        <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded">
-        <div>
-          <h3 class="font-semibold">${item.name}</h3>
-          <p>$${item.price} x 
-            <button class="bg-gray-300 px-2" onclick="decreaseQty(${index})">-</button>
-            <span>${item.quantity || 1}</span>
-            <button class="bg-gray-300 px-2" onclick="increaseQty(${index})">+</button>
-          </p>
-        </div>
-      </div>
-      <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="removeItem(${index})">Remove</button>
-    `;
+   div.className = "flex flex-col sm:flex-row justify-between items-center border p-4 rounded-xl shadow hover:shadow-lg transition-shadow mb-4";
+
+div.innerHTML = `
+  <div class="flex items-center gap-4 mb-2 sm:mb-0">
+    <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded-lg">
+    <div>
+      <h3 class="font-semibold text-lg">${item.name}</h3>
+      <p>$${item.price} x 
+        <button class="bg-gray-300 px-2 rounded transition-colors hover:bg-gray-400" onclick="decreaseQty(${index})">-</button>
+        <span>${item.quantity || 1}</span>
+        <button class="bg-gray-300 px-2 rounded transition-colors hover:bg-gray-400" onclick="increaseQty(${index})">+</button>
+      </p>
+    </div>
+  </div>
+  <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors" onclick="removeItem(${index})">Remove</button>
+`;
+
     cartContainer.appendChild(div);
   });
 

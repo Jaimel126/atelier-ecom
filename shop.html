@@ -148,17 +148,7 @@
   <!-- JS Scripts -->
   <script src="js/shop.js"></script> <!-- your main shop JS -->
 
-  <!-- Contact Us Modal JS -->
-  <script>
-    const contactButton = document.getElementById('contact-us-button');
-    const contactModal = document.getElementById('contact-us-modal');
-    const closeContactModal = document.getElementById('close-contact-us');
-
-    contactButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      contactModal.classList.remove('hidden');
-      contactModal.classList.add('flex');
-    });
+  
 
     closeContactModal.addEventListener('click', () => {
       contactModal.classList.add('hidden');

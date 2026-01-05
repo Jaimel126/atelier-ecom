@@ -7,104 +7,142 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        .product-card:hover .add-to-cart-btn {
-            opacity: 1;
-            transform: translateY(0);
+        .product-card:hover img {
+            transform: scale(1.05);
         }
     </style>
 </head>
 
-<body class="bg-white text-black font-sans antialiased">
+<body class="bg-white text-black font-sans">
 
-<!-- NAVBAR -->
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between h-16 items-center">
-            <div class="font-black text-2xl tracking-tight">COODE</div>
+<!-- ================= NAVBAR ================= -->
+<nav class="sticky top-0 z-50 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-2xl font-black">COODE</div>
 
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="index.html" class="text-sm hover:text-gray-500">Home</a>
-                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-                <a href="cart.html" class="text-sm hover:text-gray-500">Cart</a>
-                <a href="about.html" class="text-sm hover:text-gray-500">About</a>
-                <button class="bg-black text-white px-5 py-2 rounded-full text-sm">
-                    Contact Us
-                </button>
-            </div>
+        <div class="hidden md:flex space-x-8 items-center">
+            <a href="index.html">Home</a>
+            <a href="shop.html" class="font-bold border-b-2 border-black">Shop</a>
+            <a href="cart.html">Cart</a>
+            <a href="about.html">About</a>
+            <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm">
+                Contact Us
+            </button>
         </div>
     </div>
 </nav>
 
-<!-- TOP HERO IMAGE -->
-<header class="w-full h-[40vh] md:h-[60vh] overflow-hidden">
-    <img 
+<!-- ================= HERO IMAGE ================= -->
+<header class="w-full h-[30vh] md:h-[50vh] overflow-hidden">
+    <img
         src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png"
         alt="COODE Model"
         class="w-full h-full object-cover"
     >
 </header>
 
-<!-- SHOP INTRO -->
-<section class="max-w-7xl mx-auto px-4 py-16 text-center">
-    <h1 class="text-3xl md:text-4xl font-black mb-4">COODE Essentials</h1>
-    <p class="text-gray-600 max-w-xl mx-auto">
-        Minimal design. Premium feel. Built for everyday confidence.
-    </p>
-</section>
+<!-- ================= PRODUCTS ================= -->
+<section class="max-w-7xl mx-auto px-4 py-16">
+    <h2 class="text-2xl font-bold mb-8 text-center">COODE Shirts</h2>
 
-<!-- PRODUCT GRID (NO IMAGES YET – CLEAN PLACEHOLDERS) -->
-<section class="max-w-7xl mx-auto px-4 pb-20">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
-        <!-- PRODUCT CARD -->
-        <div class="border p-4 text-center product-card">
-            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
-                <span class="text-gray-400 text-sm">Image coming</span>
+        <!-- White Shirt 1 -->
+        <div class="product-card">
+            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
+                <img src="assets/images/shirt-white-1.png.png"
+                     class="w-full h-full object-cover transition">
             </div>
-            <h3 class="font-semibold">COODE White Shirt</h3>
-            <p class="text-sm text-gray-600">$9.99</p>
+            <div class="mt-4 text-center">
+                <h3 class="text-sm font-medium">COODE White Shirt</h3>
+                <p class="text-sm text-gray-500">$9.99</p>
+                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
+                    Add to Cart
+                </button>
+            </div>
         </div>
 
-        <div class="border p-4 text-center product-card">
-            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
-                <span class="text-gray-400 text-sm">Image coming</span>
+        <!-- Black Shirt 1 -->
+        <div class="product-card">
+            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
+                <img src="assets/images/shirt-black-1.png.png"
+                     class="w-full h-full object-cover transition">
             </div>
-            <h3 class="font-semibold">COODE Black Shirt</h3>
-            <p class="text-sm text-gray-600">$9.99</p>
+            <div class="mt-4 text-center">
+                <h3 class="text-sm font-medium">COODE Black Shirt</h3>
+                <p class="text-sm text-gray-500">$9.99</p>
+                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
+                    Add to Cart
+                </button>
+            </div>
         </div>
 
-        <div class="border p-4 text-center product-card">
-            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
-                <span class="text-gray-400 text-sm">Image coming</span>
+        <!-- White Shirt 2 -->
+        <div class="product-card">
+            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
+                <img src="assets/images/shirt-white-2.png.png"
+                     class="w-full h-full object-cover transition">
             </div>
-            <h3 class="font-semibold">COODE White Shirt</h3>
-            <p class="text-sm text-gray-600">$9.99</p>
+            <div class="mt-4 text-center">
+                <h3 class="text-sm font-medium">COODE White Shirt</h3>
+                <p class="text-sm text-gray-500">$9.99</p>
+                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
+                    Add to Cart
+                </button>
+            </div>
         </div>
 
-        <div class="border p-4 text-center product-card">
-            <div class="bg-gray-100 h-48 mb-4 flex items-center justify-center">
-                <span class="text-gray-400 text-sm">Image coming</span>
+        <!-- Black Shirt 2 -->
+        <div class="product-card">
+            <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
+                <img src="assets/images/shirt-black-2.png.png"
+                     class="w-full h-full object-cover transition">
             </div>
-            <h3 class="font-semibold">COODE Black Shirt</h3>
-            <p class="text-sm text-gray-600">$9.99</p>
+            <div class="mt-4 text-center">
+                <h3 class="text-sm font-medium">COODE Black Shirt</h3>
+                <p class="text-sm text-gray-500">$9.99</p>
+                <button class="mt-3 w-full border border-black py-2 text-sm hover:bg-black hover:text-white transition">
+                    Add to Cart
+                </button>
+            </div>
         </div>
 
     </div>
 </section>
 
-<!-- BOTTOM WIDE IMAGE -->
+<!-- ================= BOTTOM IMAGE ================= -->
 <section class="w-full h-[40vh] md:h-[55vh] overflow-hidden">
-    <img 
+    <img
         src="assets/images/coode-bag.png.png"
-        alt="COODE Signature Bag"
+        alt="COODE signature Bag"
         class="w-full h-full object-cover"
     >
 </section>
 
-<!-- FOOTER -->
-<footer class="text-center py-10 text-sm text-gray-500">
-    © 2026 COODE. All rights reserved.
-</footer>
+<!-- ================= CONTACT MODAL ================= -->
+<div id="contactModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-xl max-w-sm w-full text-center">
+        <h3 class="text-xl font-bold mb-4">Contact COODE</h3>
+        <p class="text-sm mb-4">Our team is ready to assist you.</p>
+        <p class="font-semibold mb-6">📞 0880913845</p>
+        <button onclick="closeModal()" class="border border-black px-6 py-2 hover:bg-black hover:text-white transition">
+            Close
+        </button>
+    </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+    function openModal() {
+        document.getElementById('contactModal').classList.remove('hidden');
+        document.getElementById('contactModal').classList.add('flex');
+    }
+
+    function closeModal() {
+        document.getElementById('contactModal').classList.add('hidden');
+        document.getElementById('contactModal').classList.remove('flex');
+    }
+</script>
 
 </body>
 </html>

@@ -8,42 +8,130 @@
 </head>
 <body class="bg-white text-gray-900">
 
- <nav class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-4 border-b">
-  <h1 class="text-2xl sm:text-3xl font-bold tracking-wide mb-2 sm:mb-0" data-brand-name>COODE</h1>
-  <ul class="flex flex-wrap gap-4 sm:gap-6 text-sm uppercase">
-    <li><a href="index.html" class="hover:text-gray-700">Home</a></li>
-    <li><a href="shop.html" class="hover:text-gray-700">Shop</a></li>
-    <li><a href="#" id="contact-us-button" class="hover:text-gray-700">Contact Us</a></li>
-    <li><a href="cart.html" class="hover:text-gray-700">Cart</a></li>
-    <li><a href="about.html" class="hover:text-gray-700">About</a></li>
-  </ul>
-</nav>
-
+  <!-- Navbar -->
+  <nav class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-4 border-b">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-wide mb-2 sm:mb-0">COODE</h1>
+    <ul class="flex flex-wrap gap-4 sm:gap-6 text-sm uppercase">
+      <li><a href="index.html" class="hover:text-gray-700">Home</a></li>
+      <li><a href="shop.html" class="hover:text-gray-700 font-semibold">Shop</a></li>
+      <li><a href="#" id="contact-us-button" class="hover:text-gray-700">Contact Us</a></li>
+      <li><a href="cart.html" class="hover:text-gray-700">Cart</a></li>
+      <li><a href="about.html" class="hover:text-gray-700">About</a></li>
+    </ul>
   </nav>
 
-  <!-- Category Filter Buttons -->
+  <!-- Hero / Shop Intro -->
+  <section class="text-center py-12 px-4 sm:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Shop COODE</h2>
+    <p class="text-gray-700 mb-6">Discover our latest shirts — simple, stylish, and affordable. All shirts $9.99</p>
+  </section>
+
+  <!-- Category Filter -->
   <div class="flex justify-center gap-4 mb-8 mt-6">
     <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="All">All</button>
     <button class="filter-btn bg-gray-200 hover:bg-black hover:text-white px-4 py-2 rounded transition-colors" data-category="Shirts">Shirts</button>
   </div>
 
   <!-- Products Grid -->
-  <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-    <!-- Products will be injected by JS -->
+  <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-8">
+    <!-- Sample Products -->
+    <!-- White Shirts -->
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/white-shirt-1.jpg" alt="White Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">White Shirt 1</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/white-shirt-2.jpg" alt="White Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">White Shirt 2</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/white-shirt-3.jpg" alt="White Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">White Shirt 3</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/white-shirt-4.jpg" alt="White Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">White Shirt 4</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/white-shirt-5.jpg" alt="White Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">White Shirt 5</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Black Shirts -->
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/black-shirt-1.jpg" alt="Black Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">Black Shirt 1</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/black-shirt-2.jpg" alt="Black Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">Black Shirt 2</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/black-shirt-3.jpg" alt="Black Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">Black Shirt 3</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/black-shirt-4.jpg" alt="Black Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">Black Shirt 4</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card bg-white border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
+      <img src="assets/black-shirt-5.jpg" alt="Black Shirt" class="w-full h-64 object-cover">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold mb-2">Black Shirt 5</h3>
+        <p class="text-gray-700 font-bold mb-2">$9.99</p>
+        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors add-to-cart">Add to Cart</button>
+      </div>
+    </div>
   </div>
 
   <!-- Contact Modal -->
-  <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div id="contact-us-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
     <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
-      <button id="close-contact" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
+      <button id="close-contact-us" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
       <h2 class="text-2xl font-bold mb-4">Get in Touch with COODE</h2>
       <p class="text-gray-700 mb-4">
-        Our COODE Advisors are here to help you with any questions about our products or your orders.
+        Our COODE Advisors are here to assist you with any questions about our products or orders.
       </p>
       <p class="text-xl font-semibold mb-4">
         Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
       </p>
-      <form id="contact-form" class="flex flex-col gap-4">
+      <form id="contact-us-form" class="flex flex-col gap-4">
         <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
         <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
         <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
@@ -58,96 +146,40 @@
   </div>
 
   <!-- JS Scripts -->
-  <script src="js/shop.js"></script>
+  <script src="js/shop.js"></script> <!-- your main shop JS -->
 
-  <!-- Contact Modal Toggle & Form JS -->
+  <!-- Contact Us Modal JS -->
   <script>
-    const contactButton = document.getElementById('contact-button');
-    const modal = document.getElementById('contact-modal');
-    const closeModal = document.getElementById('close-contact');
+    const contactButton = document.getElementById('contact-us-button');
+    const contactModal = document.getElementById('contact-us-modal');
+    const closeContactModal = document.getElementById('close-contact-us');
 
     contactButton.addEventListener('click', (e) => {
       e.preventDefault();
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      contactModal.classList.remove('hidden');
+      contactModal.classList.add('flex');
     });
 
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+    closeContactModal.addEventListener('click', () => {
+      contactModal.classList.add('hidden');
+      contactModal.classList.remove('flex');
     });
 
-    modal.addEventListener('click', (e) => {
-      if(e.target === modal){
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+    contactModal.addEventListener('click', (e) => {
+      if (e.target === contactModal) {
+        contactModal.classList.add('hidden');
+        contactModal.classList.remove('flex');
       }
     });
 
-    document.getElementById('contact-form').addEventListener('submit', function(e){
+    document.getElementById('contact-us-form').addEventListener('submit', function(e){
       e.preventDefault();
       alert('Thank you! We will contact you soon.');
       this.reset();
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      contactModal.classList.add('hidden');
+      contactModal.classList.remove('flex');
     });
   </script>
 
-</body><!-- Contact Modal -->
-<div id="contact-us-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-  <div class="bg-white rounded-xl p-6 max-w-md w-full relative">
-    <button id="close-contact-us" class="absolute top-3 right-3 text-gray-500 hover:text-black">&times;</button>
-    <h2 class="text-2xl font-bold mb-4">Get in Touch with COODE</h2>
-    <p class="text-gray-700 mb-4">
-      Our COODE Advisors are here to assist you with any questions about our products or orders.
-    </p>
-    <p class="text-xl font-semibold mb-4">
-      Call us directly: <a href="tel:+231880913845" class="text-blue-600 hover:underline">0880 913 845</a>
-    </p>
-    <form id="contact-us-form" class="flex flex-col gap-4">
-      <input type="text" name="name" placeholder="Your Name" class="p-3 border rounded-lg" required>
-      <input type="email" name="email" placeholder="Your Email" class="p-3 border rounded-lg" required>
-      <textarea name="message" placeholder="Your Message" class="p-3 border rounded-lg" rows="4" required></textarea>
-      <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-        Send Message
-      </button>
-    </form>
-    <p class="text-gray-500 mt-4 text-sm">
-      By sending your message, you agree to receive updates from COODE.
-    </p>
-  </div>
-</div>
-
+</body>
 </html>
-<script>
-const contactButton = document.getElementById('contact-us-button');
-const contactModal = document.getElementById('contact-us-modal');
-const closeContactModal = document.getElementById('close-contact-us');
-
-contactButton.addEventListener('click', (e) => {
-  e.preventDefault();
-  contactModal.classList.remove('hidden');
-  contactModal.classList.add('flex');
-});
-
-closeContactModal.addEventListener('click', () => {
-  contactModal.classList.add('hidden');
-  contactModal.classList.remove('flex');
-});
-
-contactModal.addEventListener('click', (e) => {
-  if (e.target === contactModal) {
-    contactModal.classList.add('hidden');
-    contactModal.classList.remove('flex');
-  }
-});
-
-document.getElementById('contact-us-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Thank you! We will contact you soon.');
-  this.reset();
-  contactModal.classList.add('hidden');
-  contactModal.classList.remove('flex');
-});
-</script>
-

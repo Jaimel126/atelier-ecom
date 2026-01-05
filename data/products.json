@@ -1,1 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "COODE T-Shirt",
+    "price": 25.99,
+    "description": "Premium cotton t-shirt with modern fit.",
+    "image": "assets/images/tshirt1.png",
+    "colors": ["Black", "White"],
+    "sizes": ["S", "M", "L", "XL"],
+    "category": "T-Shirts"
+  },
+  {
+    "id": 2,
+    "name": "COODE Hoodie",
+    "price": 49.99,
+    "description": "Comfortable hoodie with stylish design.",
+    "image": "assets/images/hoodie1.png",
+    "colors": ["Black", "Gray"],
+    "sizes": ["S", "M", "L", "XL"],
+    "category": "Hoodies"
+  }
+]
 

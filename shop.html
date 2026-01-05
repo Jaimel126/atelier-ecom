@@ -116,3 +116,36 @@ document.getElementById('contact-form').addEventListener('submit', function(e){
   </div>
 </div>
 
+<script>
+const contactButton = document.querySelector('nav a[href="contact.html"], nav a[href="#"]'); // adjust if your contact link is different
+const modal = document.getElementById('contact-modal');
+const closeModal = document.getElementById('close-contact');
+
+contactButton.addEventListener('click', (e) => {
+  e.preventDefault(); // prevent page reload
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+});
+
+closeModal.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+});
+
+// Optional: close modal when clicking outside modal content
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+});
+
+// Contact form alert
+document.getElementById('contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  alert('Thank you! We will contact you soon.');
+  this.reset();
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+});
+</script>

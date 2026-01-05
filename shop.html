@@ -29,11 +29,13 @@
 </head>
 <body class="bg-white text-black font-sans antialiased">
 
+    <!-- NAVBAR -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
                 
+                <!-- Desktop Nav -->
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
                     <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
@@ -45,19 +47,25 @@
                     <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
                 </div>
 
+                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button onclick="toggleMobileMenu()" class="text-black p-2">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- MOBILE MENU -->
     <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full slide-transition md:hidden">
         <div class="flex justify-end p-6">
             <button onclick="toggleMobileMenu()" class="text-black p-2">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
         </div>
         <div class="flex flex-col items-center space-y-8 mt-10">
@@ -69,22 +77,25 @@
         </div>
     </div>
 
-    <header class="w-full bg-gray-100 h-[30vh] flex items-center justify-center border-b">
-        <div class="text-gray-400 text-xs font-bold uppercase tracking-widest">Collection Hero Banner</div>
+    <!-- HERO IMAGE -->
+    <header class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden">
+        <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-16">
+
+        <!-- PRODUCT GRID -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10" id="product-grid">
             <script>
                 const products = [
-                    { id: 1, name: "White Sleeve Tee 01", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
-                    { id: 2, name: "White Sleeve Tee 02", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
-                    { id: 3, name: "White Sleeve Tee 03", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
-                    { id: 4, name: "White Sleeve Tee 04", price: 9.99, img: "https://placehold.co/400x500/ffffff/000000?text=COODE+Arm" },
-                    { id: 5, name: "Black Sleeve Tee 01", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
-                    { id: 6, name: "Black Sleeve Tee 02", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
-                    { id: 7, name: "Black Sleeve Tee 03", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" },
-                    { id: 8, name: "Black Sleeve Tee 04", price: 9.99, img: "https://placehold.co/400x500/000000/ffffff?text=COODE+Arm" }
+                    { id: 1, name: "White Sleeve Tee 01", price: 9.99, img: "assets/images/shirt-white-1.png" },
+                    { id: 2, name: "White Sleeve Tee 02", price: 9.99, img: "assets/images/shirt-white-2.png" },
+                    { id: 3, name: "White Sleeve Tee 03", price: 9.99, img: "assets/images/shirt-white-3.png" },
+                    { id: 4, name: "White Sleeve Tee 04", price: 9.99, img: "assets/images/shirt-white-4.png" },
+                    { id: 5, name: "Black Sleeve Tee 01", price: 9.99, img: "assets/images/shirt-black-1.png" },
+                    { id: 6, name: "Black Sleeve Tee 02", price: 9.99, img: "assets/images/shirt-black-2.png" },
+                    { id: 7, name: "Black Sleeve Tee 03", price: 9.99, img: "assets/images/shirt-black-3.png" },
+                    { id: 8, name: "Black Sleeve Tee 04", price: 9.99, img: "assets/images/shirt-black-4.png" }
                 ];
 
                 document.write(products.map(p => `
@@ -103,8 +114,15 @@
                 `).join(''));
             </script>
         </div>
+
+        <!-- BOTTOM IMAGE -->
+        <div class="mt-16">
+            <img src="assets/images/bottom-image.png" class="w-full rounded-lg object-cover">
+        </div>
+
     </main>
 
+    <!-- CART OVERLAY & PANEL -->
     <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
     <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
         <div class="p-6 border-b flex justify-between items-center">
@@ -121,6 +139,7 @@
         </div>
     </div>
 
+    <!-- CONTACT MODAL -->
     <div id="contactModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
         <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">

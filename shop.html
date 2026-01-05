@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-brand-name>COODE Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans">
+
+  <!-- NAVBAR -->
+  <nav class="flex justify-between items-center px-8 py-6 border-b">
+    <h1 class="text-2xl font-bold tracking-wide" data-brand-name>COODE</h1>
+    <ul class="flex gap-6 text-sm uppercase">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- SHOP SECTION -->
+  <section class="py-16 px-6">
+    <h2 class="text-3xl font-bold mb-8 text-center">Shop Collection</h2>
+    <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <!-- Products will load here dynamically -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-sm py-6 border-t" data-footer>© 2026 COODE. All rights reserved.</footer>
+
+  <!-- JS -->
+  <script src="js/app.js"></script>
+  <script src="js/shop.js"></script>
+
+</body>
+</html>
 

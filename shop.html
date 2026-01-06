@@ -13,10 +13,12 @@
         .product-card:hover img {
             transform: scale(1.05);
         }
+
         /* Mobile menu & Cart transitions */
         .slide-transition {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         /* Hide scrollbar for clean look in cart */
         #cart-items-container::-webkit-scrollbar {
             width: 4px;
@@ -25,70 +27,52 @@
             background: #e5e7eb;
             border-radius: 10px;
         }
+
+        /* Info ticker animation */
+        #info-ticker {
+            height: 24px;
+            overflow: hidden;
+        }
+        #info-ticker .info-slide {
+            height: 24px;
+            line-height: 24px;
+            transition: transform 0.5s ease;
+        }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
 
     <!-- NAVBAR -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
-                
-                <!-- Desktop Nav -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
-                    <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-                    <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
-                        Cart
-                        <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                    </button>
-                    <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
-                    <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
-                </div><!-- Place this inside your <nav> div, in the center -->
-<div class="hidden md:flex flex-col items-center justify-center relative">
-    <div id="info-ticker" class="h-6 overflow-hidden text-xs font-bold text-gray-700">
-        <div class="info-slide">New collection drops this week</div>
-        <div class="info-slide">Free shipping on orders over $50</div>
-        <div class="info-slide">Limited edition designs, grab yours!</div>
-    </div>
-</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16">
 
-<style>
-    /* Info Ticker Animation */
-    #info-ticker .info-slide {
-        height: 24px;
-        line-height: 24px;
-        transition: transform 0.5s ease;
-    }
-</style>
+            <!-- Brand -->
+            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
 
-<script>
-    // Info ticker logic
-    const slides = document.querySelectorAll('#info-ticker .info-slide');
-    let currentSlide = 0;
-    setInterval(() => {
-        slides.forEach((s, i) => {
-            s.style.transform = `translateY(-${currentSlide * 24}px)`;
-        });
-        currentSlide = (currentSlide + 1) % slides.length;
-    }, 5000);
-</script>
-
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-black p-2">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path>
-                        </svg>
-                    </button>
+            <!-- Center ticker -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <div id="info-ticker" class="text-sm font-bold text-gray-700 text-center">
+                    <div class="info-slide">New collection drops this week</div>
+                    <div class="info-slide">Free shipping on orders over $50</div>
+                    <div class="info-slide">Limited edition designs, grab yours!</div>
                 </div>
+            </div>
+
+            <!-- Nav links top-right -->
+            <div class="ml-auto hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
+                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
+                    Cart
+                    <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+                <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
+                <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
             </div>
         </div>
     </nav>
 
-    <!-- MOBILE MENU -->
+    <!-- Mobile menu -->
     <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full slide-transition md:hidden">
         <div class="flex justify-end p-6">
             <button onclick="toggleMobileMenu()" class="text-black p-2">
@@ -106,7 +90,7 @@
         </div>
     </div>
 
-    <!-- HERO IMAGE -->
+    <!-- HEADER IMAGE -->
     <header onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
             class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
         <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
@@ -145,39 +129,33 @@
             </script>
         </div>
 
-        <!-- BOTTOM IMAGE (CLICKABLE BAG → ADD TO CART) -->
+        <!-- BOTTOM BAG IMAGE -->
         <div class="mt-16 cursor-pointer">
             <img 
                 src="assets/images/coode-bag.png.png" 
                 class="w-full rounded-lg object-cover hover:opacity-90 transition"
                 onclick="addToCart('COODE Bag', 1500, 'assets/images/coode-bag.png.png')"
             >
-        </div><!-- SMALL UPCOMING PRODUCTS GRID -->
-<div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-    <!-- Row 1 -->
-    <img src="assets/images/upcoming1.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming2.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming3.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming4.png" class="w-full h-32 object-cover rounded-lg">
+        </div>
 
-    <!-- Row 2 -->
-    <img src="assets/images/upcoming5.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming6.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming7.png" class="w-full h-32 object-cover rounded-lg">
-    <img src="assets/images/upcoming8.png" class="w-full h-32 object-cover rounded-lg">
-</div>
+        <!-- 8 ROWS UNDER BAG (4x4) -->
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Sample placeholders for 8 products -->
+            ${Array(8).fill(0).map((_, i) => `
+                <div class="h-40 bg-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-500">Upcoming ${i+1}</div>
+            `).join('')}
+        </div>
 
-<!-- LARGE UPCOMING PRODUCTS ROWS -->
-<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-    <img src="assets/images/upcoming-large1.png" class="w-full h-64 md:h-80 object-cover rounded-lg">
-    <img src="assets/images/upcoming-large2.png" class="w-full h-64 md:h-80 object-cover rounded-lg">
-    <img src="assets/images/upcoming-large3.png" class="w-full h-64 md:h-80 object-cover rounded-lg">
-</div>
-
+        <!-- 3 BIG ROWS SHOWCASE -->
+        <div class="mt-12 space-y-6">
+            ${Array(3).fill(0).map((_, i) => `
+                <div class="h-64 md:h-96 w-full bg-gray-200 rounded-lg flex items-center justify-center text-2xl font-black text-gray-700">Big Showcase ${i+1}</div>
+            `).join('')}
+        </div>
 
     </main>
 
-    <!-- CART PANEL -->
+    <!-- CART OVERLAY & PANEL -->
     <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
     <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
         <div class="p-6 border-b flex justify-between items-center">
@@ -198,7 +176,7 @@
                 <span class="font-medium text-gray-500">Subtotal</span>
                 <span id="cart-subtotal" class="text-2xl font-black tracking-tighter">$0.00</span>
             </div>
-            <button onclick="checkoutMobileMoney()" class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">CHECKOUT VIA MOBILE MONEY</button>
+            <button class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">CHECKOUT</button>
         </div>
     </div>
 
@@ -217,128 +195,110 @@
         </div>
     </div>
 
-<script>
-    // --- CART ENGINE ---
-    let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
+    <script>
+        // --- CART ENGINE ---
+        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
 
-    function clearFullCart() {
-        if (cart.length === 0) return;
-        if (confirm("Are you sure you want to empty your cart?")) {
-            cart = [];
-            saveAndSync();
-        }
-    }
-
-    function openCart() {
-        document.getElementById('cart-overlay').classList.remove('hidden');
-        document.getElementById('cart-panel').classList.remove('translate-x-full');
-        renderCart();
-    }
-
-    function closeCart() {
-        document.getElementById('cart-overlay').classList.add('hidden');
-        document.getElementById('cart-panel').classList.add('translate-x-full');
-    }
-
-    function addToCart(name, price, img) {
-        const item = cart.find(i => i.name === name);
-        if (item) item.qty++;
-        else cart.push({ name, price, img, qty: 1 });
-        saveAndSync();
-        openCart();
-    }
-
-    function updateQty(index, delta) {
-        cart[index].qty += delta;
-        if (cart[index].qty <= 0) cart.splice(index, 1);
-        saveAndSync();
-    }
-
-    function saveAndSync() {
-        localStorage.setItem('coode_cart', JSON.stringify(cart));
-        renderCart();
-        updateCartBadge();
-    }
-
-    function updateCartBadge() {
-        const badge = document.getElementById('cart-count');
-        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-        badge.innerText = totalItems;
-        badge.classList.toggle('hidden', totalItems === 0);
-    }
-
-    function renderCart() {
-        const container = document.getElementById('cart-items-container');
-        let total = 0;
-        if (cart.length === 0) {
-            container.innerHTML = `<p class="text-center text-gray-400 italic py-10">Cart is empty</p>`;
-        } else {
-            container.innerHTML = cart.map((item, i) => {
-                total += item.price * item.qty;
-                return `
-                    <div class="flex items-center space-x-4">
-                        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
-                        <div class="flex-1">
-                            <h4 class="text-xs font-bold">${item.name}</h4>
-                            <div class="flex items-center space-x-2 mt-2">
-                                <button onclick="updateQty(${i}, -1)" class="w-6 h-6 border rounded">-</button>
-                                <span class="text-xs">${item.qty}</span>
-                                <button onclick="updateQty(${i}, 1)" class="w-6 h-6 border rounded">+</button>
-                            </div>
-                        </div>
-                        <span class="text-sm font-bold">$${(item.price * item.qty).toFixed(2)}</span>
-                    </div>`;
-            }).join('');
-        }
-        document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
-    }
-
-    // --- MOBILE MONEY CHECKOUT ---
-    function checkoutMobileMoney() {
-        if(cart.length === 0){
-            alert("Cart is empty!");
-            return;
-        }
-
-        const orderId = 'ORD-' + Date.now() + '-' + Math.floor(Math.random()*1000);
-        const order = {
-            id: orderId,
-            items: cart,
-            total: cart.reduce((sum, item) => sum + item.price*item.qty, 0)
-        };
-
-        fetch('http://localhost:3000/mobile-money-checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ order })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.success){
-                alert(`Payment initiated for Order: ${orderId}\nTotal: $${order.total.toFixed(2)}\nCheck console for server logs.`);
+        function clearFullCart() {
+            if (cart.length === 0) return;
+            if (confirm("Are you sure you want to empty your cart?")) {
                 cart = [];
                 saveAndSync();
-                closeCart();
-            } else {
-                alert("Failed to initiate payment. Try again.");
             }
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Server error. Check console.");
-        });
-    }
+        }
 
-    // --- UI LOGIC ---
-    function toggleMobileMenu() {
-        document.getElementById('mobile-menu').classList.toggle('translate-x-full');
-    }
+        function openCart() {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            document.getElementById('cart-panel').classList.remove('translate-x-full');
+            renderCart();
+        }
 
-    function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
-    function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
+        function closeCart() {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-panel').classList.add('translate-x-full');
+        }
 
-    // Initial badge update
-    updateCartBadge();
-</script>
+        function addToCart(name, price, img) {
+            const item = cart.find(i => i.name === name);
+            if (item) item.qty++;
+            else cart.push({ name, price, img, qty: 1 });
+            saveAndSync();
+            openCart();
+        }
+
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveAndSync();
+        }
+
+        function saveAndSync() {
+            localStorage.setItem('coode_cart', JSON.stringify(cart));
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            let total = 0;
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                        <svg class="w-12 h-12 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <p class="italic text-sm">Your cart is currently empty.</p>
+                    </div>`;
+            } else {
+                container.innerHTML = cart.map((item, i) => {
+                    total += item.price * item.qty;
+                    return `
+                        <div class="flex items-center space-x-4">
+                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100 shadow-sm">
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold uppercase tracking-tight">${item.name}</h4>
+                                <div class="flex items-center space-x-3 mt-2">
+                                    <div class="flex items-center border rounded-full px-2 py-1">
+                                        <button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400 hover:text-black transition">-</button>
+                                        <span class="text-[10px] font-bold w-4 text-center">${item.qty}</span>
+                                        <button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400 hover:text-black transition">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-sm font-black italic tracking-tighter">$${(item.price * item.qty).toFixed(2)}</span>
+                        </div>`;
+                }).join('');
+            }
+            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
+        }
+
+        // --- UI LOGIC ---
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('translate-x-full');
+        }
+
+        function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
+        function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
+
+        updateCartBadge();
+
+        // --- INFO TICKER ---
+        const slides = document.querySelectorAll('#info-ticker .info-slide');
+        let currentSlide = 0;
+        setInterval(() => {
+            slides.forEach((s, i) => {
+                s.style.transform = `translateY(-${currentSlide * 24}px)`;
+            });
+            currentSlide = (currentSlide + 1) % slides.length;
+        }, 5000);
+    </script>
+
 </body>
 </html>

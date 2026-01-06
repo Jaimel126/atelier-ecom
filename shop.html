@@ -45,7 +45,36 @@
                     </button>
                     <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
                     <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
-                </div>
+                </div><!-- Place this inside your <nav> div, in the center -->
+<div class="hidden md:flex flex-col items-center justify-center relative">
+    <div id="info-ticker" class="h-6 overflow-hidden text-xs font-bold text-gray-700">
+        <div class="info-slide">New collection drops this week</div>
+        <div class="info-slide">Free shipping on orders over $50</div>
+        <div class="info-slide">Limited edition designs, grab yours!</div>
+    </div>
+</div>
+
+<style>
+    /* Info Ticker Animation */
+    #info-ticker .info-slide {
+        height: 24px;
+        line-height: 24px;
+        transition: transform 0.5s ease;
+    }
+</style>
+
+<script>
+    // Info ticker logic
+    const slides = document.querySelectorAll('#info-ticker .info-slide');
+    let currentSlide = 0;
+    setInterval(() => {
+        slides.forEach((s, i) => {
+            s.style.transform = `translateY(-${currentSlide * 24}px)`;
+        });
+        currentSlide = (currentSlide + 1) % slides.length;
+    }, 5000);
+</script>
+
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">

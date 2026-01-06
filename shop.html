@@ -127,7 +127,7 @@
 
     </main>
 
-    <!-- CART OVERLAY & PANEL -->
+    <!-- CART PANEL -->
     <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
     <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
         <div class="p-6 border-b flex justify-between items-center">
@@ -148,9 +148,7 @@
                 <span class="font-medium text-gray-500">Subtotal</span>
                 <span id="cart-subtotal" class="text-2xl font-black tracking-tighter">$0.00</span>
             </div>
-            <button onclick="openPaymentModal()" class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">
-                CHECKOUT
-            </button>
+            <button onclick="checkoutMobileMoney()" class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">CHECKOUT VIA MOBILE MONEY</button>
         </div>
     </div>
 
@@ -169,131 +167,128 @@
         </div>
     </div>
 
-    <!-- MOBILE MONEY PAYMENT MODAL -->
-    <div id="paymentModal" class="fixed inset-0 z-[130] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closePaymentModal()"></div>
-        <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">
-            <h2 class="text-2xl font-black italic mb-6">MOBILE MONEY PAYMENT</h2>
-            <p class="mb-4 text-gray-700">
-                To complete your purchase, please send your payment to one of the following numbers:
-            </p>
-            <ul class="mb-4 text-gray-800 list-disc list-inside">
-                <li>Orange Money: 0775944302</li>
-                <li>MTN Mobile Money: 0880913845</li>
-            </ul>
-            <p class="mb-4 text-gray-700">Total Amount: <span id="payment-total" class="font-bold">$0.00</span></p>
-            <p class="mb-6 text-gray-700">After sending payment, confirm via WhatsApp or Email, and we will process your order.</p>
-            <button onclick="closePaymentModal()" class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">
-                CLOSE
-            </button>
-        </div>
-    </div>
+<script>
+    // --- CART ENGINE ---
+    let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
 
-    <script>
-        // --- CART ENGINE ---
-        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
+    function clearFullCart() {
+        if (cart.length === 0) return;
+        if (confirm("Are you sure you want to empty your cart?")) {
+            cart = [];
+            saveAndSync();
+        }
+    }
 
-        function clearFullCart() {
-            if (cart.length === 0) return;
-            if (confirm("Are you sure you want to empty your cart?")) {
+    function openCart() {
+        document.getElementById('cart-overlay').classList.remove('hidden');
+        document.getElementById('cart-panel').classList.remove('translate-x-full');
+        renderCart();
+    }
+
+    function closeCart() {
+        document.getElementById('cart-overlay').classList.add('hidden');
+        document.getElementById('cart-panel').classList.add('translate-x-full');
+    }
+
+    function addToCart(name, price, img) {
+        const item = cart.find(i => i.name === name);
+        if (item) item.qty++;
+        else cart.push({ name, price, img, qty: 1 });
+        saveAndSync();
+        openCart();
+    }
+
+    function updateQty(index, delta) {
+        cart[index].qty += delta;
+        if (cart[index].qty <= 0) cart.splice(index, 1);
+        saveAndSync();
+    }
+
+    function saveAndSync() {
+        localStorage.setItem('coode_cart', JSON.stringify(cart));
+        renderCart();
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const badge = document.getElementById('cart-count');
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        badge.innerText = totalItems;
+        badge.classList.toggle('hidden', totalItems === 0);
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cart-items-container');
+        let total = 0;
+        if (cart.length === 0) {
+            container.innerHTML = `<p class="text-center text-gray-400 italic py-10">Cart is empty</p>`;
+        } else {
+            container.innerHTML = cart.map((item, i) => {
+                total += item.price * item.qty;
+                return `
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
+                        <div class="flex-1">
+                            <h4 class="text-xs font-bold">${item.name}</h4>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <button onclick="updateQty(${i}, -1)" class="w-6 h-6 border rounded">-</button>
+                                <span class="text-xs">${item.qty}</span>
+                                <button onclick="updateQty(${i}, 1)" class="w-6 h-6 border rounded">+</button>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold">$${(item.price * item.qty).toFixed(2)}</span>
+                    </div>`;
+            }).join('');
+        }
+        document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
+    }
+
+    // --- MOBILE MONEY CHECKOUT ---
+    function checkoutMobileMoney() {
+        if(cart.length === 0){
+            alert("Cart is empty!");
+            return;
+        }
+
+        const orderId = 'ORD-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+        const order = {
+            id: orderId,
+            items: cart,
+            total: cart.reduce((sum, item) => sum + item.price*item.qty, 0)
+        };
+
+        fetch('http://localhost:3000/mobile-money-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success){
+                alert(`Payment initiated for Order: ${orderId}\nTotal: $${order.total.toFixed(2)}\nCheck console for server logs.`);
                 cart = [];
                 saveAndSync();
-            }
-        }
-
-        function openCart() {
-            document.getElementById('cart-overlay').classList.remove('hidden');
-            document.getElementById('cart-panel').classList.remove('translate-x-full');
-            renderCart();
-        }
-
-        function closeCart() {
-            document.getElementById('cart-overlay').classList.add('hidden');
-            document.getElementById('cart-panel').classList.add('translate-x-full');
-        }
-
-        function addToCart(name, price, img) {
-            const item = cart.find(i => i.name === name);
-            if (item) item.qty++;
-            else cart.push({ name, price, img, qty: 1 });
-            saveAndSync();
-            openCart();
-        }
-
-        function updateQty(index, delta) {
-            cart[index].qty += delta;
-            if (cart[index].qty <= 0) cart.splice(index, 1);
-            saveAndSync();
-        }
-
-        function saveAndSync() {
-            localStorage.setItem('coode_cart', JSON.stringify(cart));
-            renderCart();
-            updateCartBadge();
-        }
-
-        function updateCartBadge() {
-            const badge = document.getElementById('cart-count');
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            badge.innerText = totalItems;
-            badge.classList.toggle('hidden', totalItems === 0);
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            let total = 0;
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-20 text-gray-400">
-                        <svg class="w-12 h-12 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                        <p class="italic text-sm">Your cart is currently empty.</p>
-                    </div>`;
+                closeCart();
             } else {
-                container.innerHTML = cart.map((item, i) => {
-                    total += item.price * item.qty;
-                    return `
-                        <div class="flex items-center space-x-4">
-                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100 shadow-sm">
-                            <div class="flex-1">
-                                <h4 class="text-xs font-bold uppercase tracking-tight">${item.name}</h4>
-                                <div class="flex items-center space-x-3 mt-2">
-                                    <div class="flex items-center border rounded-full px-2 py-1">
-                                        <button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400 hover:text-black transition">-</button>
-                                        <span class="text-[10px] font-bold w-4 text-center">${item.qty}</span>
-                                        <button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400 hover:text-black transition">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="text-sm font-black italic tracking-tighter">$${(item.price * item.qty).toFixed(2)}</span>
-                        </div>`;
-                }).join('');
+                alert("Failed to initiate payment. Try again.");
             }
-            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
-        }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Server error. Check console.");
+        });
+    }
 
-        // --- UI LOGIC ---
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('translate-x-full');
-        }
+    // --- UI LOGIC ---
+    function toggleMobileMenu() {
+        document.getElementById('mobile-menu').classList.toggle('translate-x-full');
+    }
 
-        function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
-        function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
+    function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
+    function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
 
-        // --- PAYMENT MODAL ---
-        function openPaymentModal() {
-            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            document.getElementById('payment-total').innerText = `$${total.toFixed(2)}`;
-            const modal = document.getElementById('paymentModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        function closePaymentModal() {
-            const modal = document.getElementById('paymentModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        updateCartBadge();
-    </script>
+    // Initial badge update
+    updateCartBadge();
+</script>
 </body>
 </html>

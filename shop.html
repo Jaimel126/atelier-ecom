@@ -1,156 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop | COODE</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-/* Smooth transitions for product images */
-.product-card img { transition: transform 0.5s ease; }
-.product-card:hover img { transform: scale(1.05); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | COODE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth transitions for product images */
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
 
-/* Mobile menu & Cart transitions */
-.slide-transition { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* Mobile menu & Cart transitions */
+        .slide-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-/* Hide scrollbar for clean look in cart */
-#cart-items-container::-webkit-scrollbar { width: 4px; }
-#cart-items-container::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+     
+        /* Hide scrollbar for clean look in cart */
+        #cart-items-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        #cart-items-container::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
 
-/* Info ticker animation */
-#info-ticker { height: 24px; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
-#info-ticker .info-slide { height: 24px; line-height: 24px; transition: transform 0.5s ease; text-align: center; }
-</style>
+        /* Info ticker animation */
+        #info-ticker {
+            height: 24px;
+            overflow: hidden;
+        }
+        #info-ticker .info-slide {
+            height: 24px;
+            line-height: 24px;
+            transition: transform 0.5s ease;
+        }
+    </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
 
-<!-- NAVBAR -->
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16">
-    <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16">
 
-    <!-- Center ticker -->
-    <div class="absolute left-1/2 transform -translate-x-1/2 hidden sm:flex">
-      <div id="info-ticker" class="text-sm font-bold text-gray-700">
-        <div class="info-slide">New collection drops this week</div>
-        <div class="info-slide">Free shipping on orders over $50</div>
-        <div class="info-slide">Limited edition designs, grab yours!</div>
-      </div>
-    </div>
+            <!-- Brand -->
+            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
 
-    <!-- Nav links top-right -->
-    <div class="ml-auto hidden md:flex space-x-8 items-center">
-      <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
-      <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-      <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
-        Cart
-        <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-      </button>
-      <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
-      <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
-    </div>
-  </div>
-</nav>
-
-<!-- Mobile menu -->
-<div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full slide-transition md:hidden">
-  <div class="flex justify-end p-6">
-    <button onclick="toggleMobileMenu()" class="text-black p-2">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-  </div>
-  <div class="flex flex-col items-center space-y-8 mt-10">
-    <a href="index.html" class="text-2xl font-bold tracking-tight">Home</a>
-    <a href="shop.html" class="text-2xl font-bold tracking-tight border-b-2 border-black">Shop</a>
-    <button onclick="toggleMobileMenu(); openCart();" class="text-2xl font-bold tracking-tight">Cart</button>
-    <a href="about.html" class="text-2xl font-bold tracking-tight">About</a>
-    <button onclick="toggleMobileMenu(); openModal();" class="mt-4 bg-black text-white px-10 py-4 rounded-full text-lg font-bold">Contact Us</button>
-  </div>
-</div>
-
-<!-- HEADER IMAGE -->
-<header onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
-        class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
-  <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
-</header>
-
-<main class="max-w-7xl mx-auto px-4 py-16">
-
-  <!-- PRODUCT GRID -->
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-20" id="product-grid">
-    <script>
-      const products = [
-        { id: 1, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png" },
-        { id: 2, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-2.png" },
-        { id: 3, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-3.png" },
-        { id: 4, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-4.png" },
-        { id: 5, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png" },
-        { id: 6, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-2.png" },
-        { id: 7, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-3.png" },
-        { id: 8, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-4.png" }
-      ];
-
-      document.write(products.map(p => `
-        <div class="product-card group flex flex-col">
-          <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
-            <img src="${p.img}" class="w-full h-full object-cover">
-            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-              ADD TO CART
-            </button>
-          </div>
-          <div class="mt-4">
-            <h3 class="text-sm font-bold">${p.name}</h3>
-            <p class="text-gray-500 text-sm">$${p.price.toFixed(2)}</p>
-          </div>
+            <!-- Center ticker -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <div id="info-ticker" class="text-sm font-bold text-gray-700 text-center">
+                    <div class="info-slide">New collection drops this week</div>
+                    <div class="info-slide">Free shipping on orders over $50</div>
+                    <div class="info-slide">Limited edition designs, grab yours!</div>
+                </div>
+            </div>
+            <!-- Nav links top-right -->
+            <div class="ml-auto hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
+                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
+                    Cart
+                    <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+                <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
+                <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
+            </div>
         </div>
-      `).join(''));
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full slide-transition md:hidden">
+        <div class="flex justify-end p-6">
+            <button onclick="toggleMobileMenu()" class="text-black p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="flex flex-col items-center space-y-8 mt-10">
+            <a href="index.html" class="text-2xl font-bold tracking-tight">Home</a>
+            <a href="shop.html" class="text-2xl font-bold tracking-tight border-b-2 border-black">Shop</a>
+            <button onclick="toggleMobileMenu(); openCart();" class="text-2xl font-bold tracking-tight">Cart</button>
+            <a href="about.html" class="text-2xl font-bold tracking-tight">About</a>
+            <button onclick="toggleMobileMenu(); openModal();" class="mt-4 bg-black text-white px-10 py-4 rounded-full text-lg font-bold">Contact Us</button>
+        </div>
+    </div>
+
+    <!-- HEADER IMAGE -->
+    <header onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
+            class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
+        <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-16">
+
+        <!-- PRODUCT GRID -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-20" id="product-grid">
+            <script>
+                const products = [
+                    { id: 1, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png" },
+                    { id: 2, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-2.png" },
+                    { id: 3, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-3.png" },
+                    { id: 4, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-4.png" },
+                    { id: 5, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png" },
+                    { id: 6, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-2.png" },
+                    { id: 7, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-3.png" },
+                    { id: 8, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-4.png" }
+                ];
+
+                document.write(products.map(p => `
+                    <div class="product-card group flex flex-col">
+                        <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
+                            <img src="${p.img}" class="w-full h-full object-cover">
+                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                ADD TO CART
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-sm font-bold">${p.name}</h3>
+                            <p class="text-gray-500 text-sm">$${p.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `).join(''));
+            </script>
+        </div>
+
+        <!-- BOTTOM BAG IMAGE -->
+        <div class="mt-16 cursor-pointer">
+            <img 
+                src="assets/images/coode-bag.png.png" 
+                class="w-full rounded-lg object-cover hover:opacity-90 transition"
+                onclick="addToCart('COODE Bag', 1500, 'assets/images/coode-bag.png.png')"
+            >
+        </div>
+
+        <!-- 8 ROWS UNDER BAG (4x4) -->
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Sample placeholders for 8 products -->
+            ${Array(8).fill(0).map((_, i) => `
+                <div class="h-40 bg-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-500">Upcoming ${i+1}</div>
+            `).join('')}
+        </div>
+
+        <!-- 3 BIG ROWS SHOWCASE -->
+        <div class="mt-12 space-y-6">
+            ${Array(3).fill(0).map((_, i) => `
+                <div class="h-64 md:h-96 w-full bg-gray-200 rounded-lg flex items-center justify-center text-2xl font-black text-gray-700">Big Showcase ${i+1}</div>
+            `).join('')}
+        </div>
+
+    </main>
+
+    <!-- CART OVERLAY & PANEL -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h2 class="text-xl font-black italic tracking-tighter uppercase">Your Cart</h2>
+            <div class="flex items-center space-x-4">
+                <button onclick="clearFullCart()" class="text-xs font-bold text-red-500 hover:text-red-700 transition flex items-center space-x-1" title="Clear All">
+                    <span>CLEAR</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+                <button onclick="closeCart()" class="text-gray-400 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+        </div>
+
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-medium text-gray-500">Subtotal</span>
+                <span id="cart-subtotal" class="text-2xl font-black tracking-tighter">$0.00</span>
+            </div>
+            <button class="w-full bg-black text-white py-4 rounded-full font-bold hover:bg-gray-800 transition tracking-widest text-sm">CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div id="contactModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-black italic mb-6">CONTACT COODE</h2>
+            <form onsubmit="alert('Thank you!'); closeModal(); return false;" class="space-y-4">
+                <input type="text" placeholder="Name" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <input type="email" placeholder="Email" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <textarea placeholder="Message" required class="w-full border-b py-2 outline-none focus:border-black transition"></textarea>
+                <a href="tel:0880913845" class="block text-center text-sm font-bold py-2">CALL: 0880913845</a>
+                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold">SEND</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- CART ENGINE ---
+        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
+
+        function clearFullCart() {
+            if (cart.length === 0) return;
+            if (confirm("Are you sure you want to empty your cart?")) {
+                cart = [];
+                saveAndSync();
+            }
+        }
+
+        function openCart() {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            document.getElementById('cart-panel').classList.remove('translate-x-full');
+            renderCart();
+        }
+
+        function closeCart() {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-panel').classList.add('translate-x-full');
+        }
+
+        function addToCart(name, price, img) {
+            const item = cart.find(i => i.name === name);
+            if (item) item.qty++;
+            else cart.push({ name, price, img, qty: 1 });
+            saveAndSync();
+            openCart();
+        }
+
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveAndSync();
+        }
+
+        function saveAndSync() {
+            localStorage.setItem('coode_cart', JSON.stringify(cart));
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            let total = 0;
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                        <svg class="w-12 h-12 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <p class="italic text-sm">Your cart is currently empty.</p>
+                    </div>`;
+            } else {
+                container.innerHTML = cart.map((item, i) => {
+                    total += item.price * item.qty;
+                    return `
+                        <div class="flex items-center space-x-4">
+                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100 shadow-sm">
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold uppercase tracking-tight">${item.name}</h4>
+                                <div class="flex items-center space-x-3 mt-2">
+                                    <div class="flex items-center border rounded-full px-2 py-1">
+                                        <button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400 hover:text-black transition">-</button>
+                                        <span class="text-[10px] font-bold w-4 text-center">${item.qty}</span>
+                                        <button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400 hover:text-black transition">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-sm font-black italic tracking-tighter">$${(item.price * item.qty).toFixed(2)}</span>
+                        </div>`;
+                }).join('');
+            }
+            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
+        }
+
+        // --- UI LOGIC ---
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('translate-x-full');
+        }
+
+        function openModal() { document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
+        function closeModal() { document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
+
+        updateCartBadge();
+
+        // --- INFO TICKER ---
+        const slides = document.querySelectorAll('#info-ticker .info-slide');
+        let currentSlide = 0;
+        setInterval(() => {
+            slides.forEach((s, i) => {
+                s.style.transform = `translateY(-${currentSlide * 24}px)`;
+            });
+            currentSlide = (currentSlide + 1) % slides.length;
+        }, 5000);
     </script>
-  </div>
-
-  <!-- BOTTOM BAG IMAGE -->
-  <div class="mt-16 cursor-pointer">
-    <img src="assets/images/coode-bag.png.png" class="w-full rounded-lg object-cover hover:opacity-90 transition"
-         onclick="addToCart('COODE Bag', 1500, 'assets/images/coode-bag.png.png')">
-  </div>
-
-  <!-- 8 SMALL UPCOMING PRODUCTS -->
-  <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-    ${Array(8).fill(0).map((_, i) => `
-      <div class="h-40 bg-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-500">Upcoming ${i+1}</div>
-    `).join('')}
-  </div>
-
-  <!-- 3 BIG SHOWCASE ROWS -->
-  <div class="mt-12 space-y-6">
-    ${Array(3).fill(0).map((_, i) => `
-      <div class="h-64 md:h-96 w-full bg-gray-200 rounded-lg flex items-center justify-center text-2xl font-black text-gray-700">Big Showcase ${i+1}</div>
-    `).join('')}
-  </div>
-
-</main>
-
-<!-- CART, MODAL AND SCRIPT LOGIC SAME AS BEFORE -->
-<script>
-  let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
-  function clearFullCart() { if(cart.length===0) return; if(confirm("Are you sure?")) { cart=[]; saveAndSync(); } }
-  function openCart() { document.getElementById('cart-overlay').classList.remove('hidden'); document.getElementById('cart-panel').classList.remove('translate-x-full'); renderCart(); }
-  function closeCart() { document.getElementById('cart-overlay').classList.add('hidden'); document.getElementById('cart-panel').classList.add('translate-x-full'); }
-  function addToCart(name,price,img){ const item=cart.find(i=>i.name===name); if(item)item.qty++; else cart.push({name,price,img,qty:1}); saveAndSync(); openCart(); }
-  function updateQty(i,d){ cart[i].qty+=d; if(cart[i].qty<=0) cart.splice(i,1); saveAndSync(); }
-  function saveAndSync(){ localStorage.setItem('coode_cart',JSON.stringify(cart)); renderCart(); updateCartBadge(); }
-  function updateCartBadge(){ const b=document.getElementById('cart-count'); const t=cart.reduce((s,i)=>s+i.qty,0); b.innerText=t; b.classList.toggle('hidden',t===0); }
-  function renderCart(){ const c=document.getElementById('cart-items-container'); let t=0; if(cart.length===0){c.innerHTML=`<div class="flex flex-col items-center justify-center py-20 text-gray-400"><svg class="w-12 h-12 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><p class="italic text-sm">Your cart is empty.</p></div>`; } else{c.innerHTML=cart.map((item,i)=>{ t+=item.price*item.qty; return `<div class="flex items-center space-x-4"><img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100 shadow-sm"><div class="flex-1"><h4 class="text-xs font-bold uppercase tracking-tight">${item.name}</h4><div class="flex items-center space-x-3 mt-2"><div class="flex items-center border rounded-full px-2 py-1"><button onclick="updateQty(${i},-1)" class="px-2 text-gray-400 hover:text-black transition">-</button><span class="text-[10px] font-bold w-4 text-center">${item.qty}</span><button onclick="updateQty(${i},1)" class="px-2 text-gray-400 hover:text-black transition">+</button></div></div></div><span class="text-sm font-black italic tracking-tighter">$${(item.price*item.qty).toFixed(2)}</span></div>`; }).join(''); } document.getElementById('cart-subtotal').innerText=`$${t.toFixed(2)}`; }
-  function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('translate-x-full'); }
-  function openModal(){ document.getElementById('contactModal').classList.remove('hidden'); document.getElementById('contactModal').classList.add('flex'); }
-  function closeModal(){ document.getElementById('contactModal').classList.add('hidden'); document.getElementById('contactModal').classList.remove('flex'); }
-  updateCartBadge();
-
-  // TICKER MOBILE + DESKTOP
-  const slides=document.querySelectorAll('#info-ticker .info-slide'); let currentSlide=0;
-  setInterval(()=>{ slides.forEach(s=>s.style.transform=`translateY(-${currentSlide*24}px)`); currentSlide=(currentSlide+1)%slides.length; },5000);
-</script>
 
 </body>
 </html>

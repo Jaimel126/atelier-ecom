@@ -1,156 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop | COODE</title>
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | COODE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth transitions for product images */
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
 
-<style>
-.product-card img { transition: transform .5s ease }
-.product-card:hover img { transform: scale(1.05) }
-.slide-transition { transition: transform .4s cubic-bezier(.4,0,.2,1) }
-#cart-items-container::-webkit-scrollbar { width:4px }
-#cart-items-container::-webkit-scrollbar-thumb { background:#e5e7eb;border-radius:10px }
-#info-ticker { height:24px;overflow:hidden }
-#info-ticker .info-slide { height:24px;line-height:24px;transition:transform .5s ease }
-</style>
+        /* Mobile menu & Cart transitions */
+        .slide-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hide scrollbar for clean look in cart */
+        #cart-items-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        #cart-items-container::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        /* Info ticker animation */
+        #info-ticker {
+            height: 24px;
+            overflow: hidden;
+        }
+        #info-ticker .info-slide {
+            height: 24px;
+            line-height: 24px;
+            transition: transform 0.5s ease;
+        }
+    </style>
 </head>
+<body class="bg-white text-black font-sans antialiased">
 
-<body class="bg-white text-black antialiased">
+    <div id="welcome-popup" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative bg-white w-full max-w-md rounded-3xl p-8 text-center shadow-2xl">
+            <h1 class="text-4xl font-black italic tracking-tighter mb-2">COODE</h1>
+            <h2 class="text-xl font-bold mb-6">Welcome to COODE</h2>
+            
+            <div class="space-y-4">
+                <div class="text-left">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Select Region</label>
+                    <select id="country-select" class="w-full border-b-2 border-black py-2 outline-none font-medium">
+                        <option value="US">United States (USD)</option>
+                        <option value="EU">Europe (EUR)</option>
+                        <option value="UK">United Kingdom (GBP)</option>
+                        <option value="LR">Liberia (LRD)</option>
+                        <option value="INT">International</option>
+                    </select>
+                </div>
+                
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    By entering, you agree to our use of cookies to enhance your shopping experience and analyze site traffic.
+                </p>
 
-<!-- NAVBAR -->
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b">
-  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between relative">
-    <div class="font-black text-2xl">COODE</div>
-
-    <div class="absolute inset-x-0 flex justify-center">
-      <div id="info-ticker" class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-gray-600">
-        <div class="info-slide">New collection drops this week</div>
-        <div class="info-slide">Built for the culture</div>
-        <div class="info-slide">Limited edition pieces</div>
-      </div>
+                <button onclick="acceptWelcome()" class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-sm hover:bg-gray-800 transition">
+                    ENTER SHOP
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="hidden md:flex space-x-8 items-center">
-      <a href="index.html">Home</a>
-      <a href="shop.html" class="font-bold border-b-2 border-black">Shop</a>
-      <button onclick="openCart()" class="relative">Cart
-        <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-      </button>
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16">
+            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
+
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <div id="info-ticker" class="text-sm font-bold text-gray-700 text-center">
+                    <div class="info-slide">New collection drops this week</div>
+                    <div class="info-slide">Free shipping on orders over $50</div>
+                    <div class="info-slide">Limited edition designs, grab yours!</div>
+                </div>
+            </div>
+
+            <div class="ml-auto hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
+                <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
+                <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
+                    Cart
+                    <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+                <a href="about.html" class="text-sm font-medium hover:text-gray-500 transition">About</a>
+                <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
+            </div>
+        </div>
+    </nav>
+
+    <header onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
+            class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
+        <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-16">
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-20" id="product-grid">
+            <script>
+                // TASK 1: Added 3 Base Cap products to the existing array
+                const products = [
+                    { id: 1, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png" },
+                    { id: 2, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-2.png" },
+                    { id: 3, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-3.png" },
+                    { id: 4, name: "COODE White Tshirt", price: 9.99, img: "assets/images/shirt-white-4.png" },
+                    { id: 5, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png" },
+                    { id: 6, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-2.png" },
+                    { id: 7, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-3.png" },
+                    { id: 8, name: "COODE Black Tshirt", price: 9.99, img: "assets/images/shirt-black-4.png" },
+                    { id: 9, name: "COODE Base Cap - Black", price: 25.00, img: "assets/images/cap-black.png" },
+                    { id: 10, name: "COODE Base Cap - White", price: 25.00, img: "assets/images/cap-white.png" },
+                    { id: 11, name: "COODE Base Cap - Navy", price: 25.00, img: "assets/images/cap-navy.png" }
+                ];
+
+                document.write(products.map(p => `
+                    <div class="product-card group flex flex-col">
+                        <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
+                            <img src="${p.img}" class="w-full h-full object-cover">
+                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                ADD TO CART
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-sm font-bold uppercase tracking-tight">${p.name}</h3>
+                            <p class="text-gray-500 text-sm italic font-black tracking-tighter">$${p.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `).join(''));
+            </script>
+        </div>
+
+        <div class="mt-20 group relative overflow-hidden rounded-2xl cursor-pointer">
+            <img 
+                src="assets/images/coode-bag.png.png" 
+                class="w-full h-[400px] md:h-[600px] object-cover transition duration-700 group-hover:scale-105"
+                onclick="addToCart('COODE Signature Bag', 1500.00, 'assets/images/coode-bag.png.png')"
+            >
+            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
+                <div class="bg-white px-8 py-4 rounded-full font-black italic tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-500">
+                    ADD TO BAG — $1500.00
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-32 py-20 bg-gray-50 rounded-3xl text-center px-4">
+            <h2 class="text-3xl font-black italic tracking-tighter uppercase mb-2">Join the COODE Club</h2>
+            <p class="text-gray-500 text-sm mb-8 uppercase tracking-widest font-bold">Get early access to drops and exclusive offers.</p>
+            <form onsubmit="handleSignup(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
+                <input type="email" id="signup-email" placeholder="YOUR@EMAIL.COM" required class="flex-1 px-6 py-4 rounded-full border-none bg-white text-sm outline-none focus:ring-2 focus:ring-black transition">
+                <button type="submit" class="bg-black text-white px-10 py-4 rounded-full font-black tracking-widest text-xs hover:bg-gray-800 transition uppercase">Subscribe</button>
+            </form>
+            <p id="signup-msg" class="mt-4 text-xs font-bold uppercase text-green-600 hidden">Success! Check your inbox soon.</p>
+        </section>
+
+    </main>
+
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
+        <div class="p-6 border-b flex justify-between items-center">
+            <h2 class="text-xl font-black italic tracking-tighter uppercase">Your Cart</h2>
+            <div class="flex items-center space-x-4">
+                <button onclick="clearFullCart()" class="text-xs font-bold text-red-500 hover:text-red-700 transition flex items-center space-x-1 uppercase">Clear</button>
+                <button onclick="closeCart()" class="text-gray-400 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-medium text-gray-500 uppercase text-xs tracking-widest font-bold">Subtotal</span>
+                <span id="cart-subtotal" class="text-2xl font-black italic tracking-tighter">$0.00</span>
+            </div>
+            <button class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-xs uppercase hover:bg-gray-800 transition">Checkout</button>
+        </div>
     </div>
-  </div>
-</nav>
 
-<!-- HEADER -->
-<header onclick="document.getElementById('product-grid').scrollIntoView({behavior:'smooth'})"
-class="h-[40vh] md:h-[60vh] overflow-hidden cursor-pointer">
-<img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png"
-class="w-full h-full object-cover hover:scale-105 transition duration-1000">
-</header>
+    <div id="contactModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-black italic mb-6">CONTACT COODE</h2>
+            <form onsubmit="alert('Thank you!'); closeModal(); return false;" class="space-y-4">
+                <input type="text" placeholder="Name" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <input type="email" placeholder="Email" required class="w-full border-b py-2 outline-none focus:border-black transition">
+                <textarea placeholder="Message" required class="w-full border-b py-2 outline-none focus:border-black transition"></textarea>
+                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Send</button>
+            </form>
+        </div>
+    </div>
 
-<main class="max-w-7xl mx-auto px-4 py-16">
+    <script>
+        // --- CART ENGINE ---
+        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
 
-<!-- PRODUCTS -->
-<div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
+        function clearFullCart() {
+            if (cart.length === 0) return;
+            if (confirm("Empty your cart?")) {
+                cart = [];
+                saveAndSync();
+            }
+        }
 
-<!-- BAG -->
-<div class="mt-24 relative group cursor-pointer">
-<img src="assets/images/coode-bag.png.png"
-class="w-full h-[500px] object-cover rounded-2xl group-hover:scale-105 transition"
-onclick="addToCart('COODE Signature Bag',1500,'assets/images/coode-bag.png.png')">
-<div class="absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-white opacity-0 group-hover:opacity-100 transition">
-<h2 class="text-4xl font-black">COODE BAG</h2>
-<p class="mt-2">$1500.00 — ADD TO CART</p>
-</div>
-</div>
+        function openCart() {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            document.getElementById('cart-panel').classList.remove('translate-x-full');
+            renderCart();
+        }
 
-<!-- EMAIL SIGNUP -->
-<div class="mt-32 text-center max-w-xl mx-auto">
-<h3 class="text-3xl font-black mb-4">JOIN COODE</h3>
-<p class="text-gray-500 mb-6">Get early access to drops</p>
-<input id="emailInput" type="email" placeholder="Enter your email"
-class="border px-4 py-3 w-full mb-4">
-<button onclick="saveEmail()" class="bg-black text-white px-8 py-3 w-full">SIGN UP</button>
-</div>
+        function closeCart() {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-panel').classList.add('translate-x-full');
+        }
 
-</main>
+        function addToCart(name, price, img) {
+            const item = cart.find(i => i.name === name);
+            if (item) item.qty++;
+            else cart.push({ name, price, img, qty: 1 });
+            saveAndSync();
+            openCart(); // Task 2 requirement: Automatically open cart
+        }
 
-<!-- CART -->
-<div id="cart-overlay" class="fixed inset-0 bg-black/50 hidden" onclick="closeCart()"></div>
-<div id="cart-panel" class="fixed right-0 top-0 h-full w-full max-w-md bg-white translate-x-full slide-transition">
-<div class="p-6 border-b flex justify-between">
-<h2 class="font-black">YOUR CART</h2>
-<button onclick="closeCart()">✕</button>
-</div>
-<div id="cart-items-container" class="p-6 space-y-6"></div>
-<div class="p-6 border-t">
-<div class="flex justify-between font-black">
-<span>Total</span><span id="cart-subtotal">$0.00</span>
-</div>
-</div>
-</div>
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveAndSync();
+        }
 
-<!-- WELCOME POPUP -->
-<div id="welcomeModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/70">
-<div class="bg-white p-8 rounded-xl max-w-md text-center">
-<h2 class="text-3xl font-black mb-2">COODE</h2>
-<p class="mb-4">Welcome to COODE</p>
-<select class="border w-full p-2 mb-4">
-<option>Select Country</option>
-<option>Liberia</option>
-<option>USA</option>
-<option>UK</option>
-</select>
-<p class="text-xs text-gray-400 mb-4">We use cookies to improve experience</p>
-<button onclick="enterShop()" class="bg-black text-white w-full py-3">ENTER SHOP</button>
-</div>
-</div>
+        function saveAndSync() {
+            localStorage.setItem('coode_cart', JSON.stringify(cart));
+            renderCart();
+            updateCartBadge();
+        }
 
-<script>
-/* PRODUCTS */
-const products=[
-{id:1,name:"COODE White Tee",price:9.99,img:"assets/images/shirt-white-1.png"},
-{id:2,name:"COODE Black Tee",price:9.99,img:"assets/images/shirt-black-1.png"},
-{id:9,name:"COODE Base Cap Black",price:14.99,img:"assets/images/cap-1.png"},
-{id:10,name:"COODE Base Cap White",price:14.99,img:"assets/images/cap-2.png"},
-{id:11,name:"COODE Base Cap Grey",price:14.99,img:"assets/images/cap-3.png"}
-];
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
 
-const grid=document.getElementById("product-grid");
-grid.innerHTML=products.map(p=>`
-<div class="product-card">
-<img src="${p.img}" class="w-full h-64 object-cover rounded-lg">
-<h3 class="mt-2 font-black">${p.name}</h3>
-<p>$${p.price.toFixed(2)}</p>
-<button onclick="addToCart('${p.name}',${p.price},'${p.img}')"
-class="mt-2 bg-black text-white w-full py-2">ADD TO CART</button>
-</div>`).join("");
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            let total = 0;
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 text-gray-400 italic text-sm uppercase tracking-widest">Bag is empty</div>`;
+            } else {
+                container.innerHTML = cart.map((item, i) => {
+                    total += item.price * item.qty;
+                    return `
+                        <div class="flex items-center space-x-4 animate-fadeIn border-b pb-4">
+                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
+                            <div class="flex-1">
+                                <h4 class="text-[10px] font-black uppercase tracking-tight">${item.name}</h4>
+                                <div class="flex items-center space-x-3 mt-2">
+                                    <div class="flex items-center border rounded-full px-2 py-0.5">
+                                        <button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400 hover:text-black">-</button>
+                                        <span class="text-[10px] font-bold w-4 text-center">${item.qty}</span>
+                                        <button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400 hover:text-black">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-black italic tracking-tighter">$${(item.price * item.qty).toFixed(2)}</span>
+                        </div>`;
+                }).join('');
+            }
+            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
+        }
 
-/* CART */
-let cart=JSON.parse(localStorage.getItem("coode_cart"))||[];
-function addToCart(n,p,i){const f=cart.find(x=>x.name===n);f?f.qty++:cart.push({name:n,price:p,img:i,qty:1});sync();openCart();}
-function sync(){localStorage.setItem("coode_cart",JSON.stringify(cart));render();}
-function render(){let t=0;document.getElementById("cart-items-container").innerHTML=cart.map(c=>{t+=c.price*c.qty;return`<div>${c.name} x${c.qty}</div>`}).join("");document.getElementById("cart-subtotal").innerText="$"+t.toFixed(2);}
-function openCart(){document.getElementById("cart-overlay").classList.remove("hidden");document.getElementById("cart-panel").classList.remove("translate-x-full");}
-function closeCart(){document.getElementById("cart-overlay").classList.add("hidden");document.getElementById("cart-panel").classList.add("translate-x-full");}
+        // --- TASK 3: WELCOME POPUP LOGIC ---
+        window.addEventListener('load', () => {
+            if (!localStorage.getItem('coode_visited')) {
+                document.getElementById('welcome-popup').classList.replace('hidden', 'flex');
+            }
+        });
 
-/* EMAIL */
-function saveEmail(){localStorage.setItem("coode_email",document.getElementById("emailInput").value);alert("Subscribed");}
+        function acceptWelcome() {
+            localStorage.setItem('coode_visited', 'true');
+            document.getElementById('welcome-popup').classList.replace('flex', 'hidden');
+        }
 
-/* WELCOME */
-if(!localStorage.getItem("coode_visited")){
-document.getElementById("welcomeModal").classList.remove("hidden");
-}
-function enterShop(){
-localStorage.setItem("coode_visited","yes");
-document.getElementById("welcomeModal").classList.add("hidden");
-}
+        // --- TASK 4: SIGNUP LOGIC ---
+        function handleSignup(e) {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            let subs = JSON.parse(localStorage.getItem('coode_subscribers')) || [];
+            subs.push({email: email, date: new Date().toISOString()});
+            localStorage.setItem('coode_subscribers', JSON.stringify(subs));
+            
+            document.getElementById('signup-email').value = '';
+            const msg = document.getElementById('signup-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 3000);
+        }
 
-/* TICKER */
-const slides=document.querySelectorAll("#info-ticker .info-slide");
-let i=0;setInterval(()=>{i=(i+1)%slides.length;slides.forEach(s=>s.style.transform=`translateY(-${i*24}px)`);},5000);
-</script>
+        // --- UI UTILS ---
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('translate-x-full'); }
+        function openModal() { document.getElementById('contactModal').classList.replace('hidden', 'flex'); }
+        function closeModal() { document.getElementById('contactModal').classList.replace('flex', 'hidden'); }
 
+        const slides = document.querySelectorAll('#info-ticker .info-slide');
+        let currentSlide = 0;
+        setInterval(() => {
+            slides.forEach((s) => s.style.transform = `translateY(-${currentSlide * 24}px)`);
+            currentSlide = (currentSlide + 1) % slides.length;
+        }, 5000);
+
+        updateCartBadge();
+    </script>
 </body>
 </html>

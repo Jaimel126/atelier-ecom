@@ -39,9 +39,45 @@
             transition: transform 0.5s ease;
             white-space: nowrap; /* Prevent text wrapping */
         }
+
+        /* UPDATE 2: Search Overlay Styles */
+        #search-overlay {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .live-result-card {
+            transition: all 0.2s ease;
+        }
+        .live-result-card:hover {
+            background: #f9fafb;
+        }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
+
+    <div id="search-overlay" class="fixed inset-0 z-[150] invisible opacity-0">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeSearch()"></div>
+        <div class="relative bg-white w-full border-b border-gray-100 shadow-2xl overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex-1 max-w-2xl relative">
+                        <input type="text" id="premium-search-input" 
+                               placeholder="Search COODE products..." 
+                               class="w-full text-2xl md:text-4xl font-black italic tracking-tighter outline-none border-none placeholder:text-gray-200 uppercase"
+                               oninput="handleLiveSearch(this.value)"
+                               onkeydown="handleSearchKeyDown(event)">
+                        <div id="search-suggestion" class="absolute top-0 left-0 text-2xl md:text-4xl font-black italic tracking-tighter text-gray-200 pointer-events-none uppercase"></div>
+                    </div>
+                    <button onclick="closeSearch()" class="text-4xl font-light hover:rotate-90 transition-transform duration-300">&times;</button>
+                </div>
+
+                <div id="live-results-container" class="hidden">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Suggested Products</p>
+                    <div id="live-results-grid" class="grid grid-cols-3 md:grid-cols-4 gap-4 md:gap-8">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="welcome-popup" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
@@ -74,7 +110,12 @@
 
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16 md:h-20">
-            <div class="flex-shrink-0 font-black text-2xl tracking-tighter">COODE</div>
+            
+            <button onclick="openSearch()" class="p-2 hover:opacity-50 transition mr-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </button>
+
+            <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex-shrink-0 font-black text-2xl tracking-tighter cursor-pointer select-none">COODE</div>
 
             <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-[150px] md:max-w-xs pointer-events-none">
                 <div id="info-ticker" class="text-[10px] md:text-xs font-bold text-gray-500 text-center uppercase tracking-widest">
@@ -87,12 +128,6 @@
             </div>
 
             <div class="ml-auto flex items-center space-x-4 md:space-x-8">
-                <div class="hidden md:block relative">
-                    <input type="text" id="nav-search" placeholder="SEARCH..." 
-                        class="bg-gray-100 border-none rounded-full px-4 py-2 text-[10px] font-bold w-40 focus:w-60 transition-all duration-300 outline-none">
-                    <span id="search-error" class="absolute -bottom-5 left-0 text-[9px] text-red-500 font-bold uppercase hidden">No product found</span>
-                </div>
-
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
                     <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
@@ -102,20 +137,11 @@
                     </button>
                     <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
                 </div>
-                
-                <button class="md:hidden p-2" onclick="toggleMobileSearch()">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
             </div>
-        </div>
-        <div id="mobile-search-bar" class="hidden md:hidden px-4 pb-4 animate-fadeIn">
-            <input type="text" id="nav-search-mobile" placeholder="SEARCH COODE..." 
-                class="w-full bg-gray-100 border-none rounded-full px-4 py-3 text-xs font-bold outline-none">
-            <span id="search-error-mobile" class="block mt-2 text-[9px] text-red-500 font-bold uppercase hidden">No product found</span>
         </div>
     </nav>
 
-    <header onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
+    <header id="hero" onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
             class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
         <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
     </header>
@@ -140,7 +166,7 @@
                 ];
 
                 document.write(products.map(p => `
-                    <div class="product-card group flex flex-col" data-name="${p.name.toLowerCase()}" data-category="${p.category.toLowerCase()}" data-keywords="${p.keywords.join(' ')}">
+                    <div id="prod-${p.id}" class="product-card group flex flex-col" data-name="${p.name.toLowerCase()}" data-category="${p.category.toLowerCase()}" data-keywords="${p.keywords.join(' ')}">
                         <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
                             <img src="${p.img}" class="w-full h-full object-cover">
                             <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
@@ -291,7 +317,90 @@
             document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
         }
 
-        // --- TASK 3: WELCOME POPUP LOGIC ---
+        // --- UPDATE 2: PREMIUM LIVE SEARCH ENGINE ---
+        const overlay = document.getElementById('search-overlay');
+        const searchInput = document.getElementById('premium-search-input');
+        const ghostText = document.getElementById('search-suggestion');
+        const resultsGrid = document.getElementById('live-results-grid');
+        const resultsContainer = document.getElementById('live-results-container');
+
+        function openSearch() {
+            overlay.classList.remove('invisible', 'opacity-0');
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            overlay.classList.add('invisible', 'opacity-0');
+            searchInput.value = '';
+            ghostText.innerText = '';
+            resultsContainer.classList.add('hidden');
+        }
+
+        function handleLiveSearch(val) {
+            const query = val.toLowerCase().trim();
+            if (query.length === 0) {
+                ghostText.innerText = '';
+                resultsContainer.classList.add('hidden');
+                return;
+            }
+
+            // 1. Logic for Autocomplete Suggestion
+            const suggestion = products.find(p => p.name.toLowerCase().startsWith(query) || p.category.toLowerCase().startsWith(query));
+            if (suggestion) {
+                const targetText = suggestion.name.toLowerCase().startsWith(query) ? suggestion.name : suggestion.category;
+                ghostText.innerText = val + targetText.substring(query.length);
+            } else {
+                ghostText.innerText = '';
+            }
+
+            // 2. Logic for Live Results Grid
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query) || 
+                p.keywords.some(k => k.includes(query))
+            );
+
+            if (filtered.length > 0) {
+                resultsContainer.classList.remove('hidden');
+                // Slice based on instructions: 8 desktop, 6 mobile
+                const limit = window.innerWidth > 768 ? 8 : 6;
+                resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `
+                    <div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group">
+                        <div class="aspect-square bg-gray-50 overflow-hidden rounded-md mb-2">
+                            <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <h4 class="text-[9px] font-black uppercase leading-tight truncate">${p.name}</h4>
+                        <p class="text-[9px] text-gray-400 font-bold">$${p.price.toFixed(2)}</p>
+                    </div>
+                `).join('');
+            } else {
+                resultsGrid.innerHTML = `<p class="text-[10px] uppercase font-bold text-gray-300">No products found</p>`;
+            }
+        }
+
+        function handleSearchKeyDown(e) {
+            if (e.key === 'Tab' && ghostText.innerText) {
+                e.preventDefault();
+                searchInput.value = ghostText.innerText;
+            }
+            if (e.key === 'Enter') {
+                const firstMatch = products.find(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+                if (firstMatch) navigateToProduct(firstMatch.id);
+            }
+            if (e.key === 'Escape') closeSearch();
+        }
+
+        function navigateToProduct(id) {
+            closeSearch();
+            const el = document.getElementById('prod-' + id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-4', 'ring-black/10');
+                setTimeout(() => el.classList.remove('ring-4', 'ring-black/10'), 2000);
+            }
+        }
+
+        // --- WELCOME POPUP LOGIC ---
         window.addEventListener('load', () => {
             if (!localStorage.getItem('coode_visited')) {
                 document.getElementById('welcome-popup').classList.replace('hidden', 'flex');
@@ -303,7 +412,7 @@
             document.getElementById('welcome-popup').classList.replace('flex', 'hidden');
         }
 
-        // --- TASK 4: SIGNUP LOGIC ---
+        // --- SIGNUP LOGIC ---
         function handleSignup(e) {
             e.preventDefault();
             const email = document.getElementById('signup-email').value;
@@ -317,52 +426,7 @@
             setTimeout(() => msg.classList.add('hidden'), 3000);
         }
 
-        // --- UPDATE 1: SEARCH FUNCTIONALITY ---
-        const searchInput = document.getElementById('nav-search');
-        const searchInputMobile = document.getElementById('nav-search-mobile');
-        const searchError = document.getElementById('search-error');
-        const searchErrorMobile = document.getElementById('search-error-mobile');
-
-        function performSearch(query) {
-            query = query.toLowerCase().trim();
-            const productCards = document.querySelectorAll('.product-card');
-            let found = false;
-
-            if (query === "") return;
-
-            productCards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                const category = card.getAttribute('data-category');
-                const keywords = card.getAttribute('data-keywords');
-
-                if (name.includes(query) || category.includes(query) || keywords.includes(query)) {
-                    found = true;
-                    // Scroll to first match
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Highlight effect
-                    card.classList.add('ring-4', 'ring-black', 'ring-opacity-20');
-                    setTimeout(() => card.classList.remove('ring-4', 'ring-black', 'ring-opacity-20'), 2000);
-                }
-            });
-
-            if (!found) {
-                searchError.classList.remove('hidden');
-                searchErrorMobile.classList.remove('hidden');
-                setTimeout(() => {
-                    searchError.classList.add('hidden');
-                    searchErrorMobile.classList.add('hidden');
-                }, 2000);
-            }
-        }
-
-        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(e.target.value); });
-        searchInputMobile.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(e.target.value); });
-
-        function toggleMobileSearch() {
-            document.getElementById('mobile-search-bar').classList.toggle('hidden');
-        }
-
-        // --- UPDATE 2: REFINED TICKER (7s Interval) ---
+        // --- REFINED TICKER (7s Interval) ---
         const slides = document.querySelectorAll('#info-ticker .info-slide');
         let currentSlide = 0;
         setInterval(() => {
@@ -370,7 +434,7 @@
             slides.forEach((s) => {
                 s.style.transform = `translateY(-${currentSlide * 24}px)`;
             });
-        }, 7000); // 7 Seconds
+        }, 7000);
 
         // --- UI UTILS ---
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('translate-x-full'); }

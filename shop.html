@@ -37,42 +37,43 @@
             height: 24px;
             line-height: 24px;
             transition: transform 0.5s ease;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap;
         }
 
-        /* UPDATE 2: Search Overlay Styles */
+        /* Search Overlay Styles (Luxury Look) */
         #search-overlay {
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .live-result-card {
-            transition: all 0.2s ease;
+        .search-inner-container {
+            background: rgba(255, 255, 255, 0.98); 
+            border-bottom: 1px solid #f3f4f6; 
         }
-        .live-result-card:hover {
-            background: #f9fafb;
+        .live-result-card {
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
 
     <div id="search-overlay" class="fixed inset-0 z-[150] invisible opacity-0">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeSearch()"></div>
-        <div class="relative bg-white w-full border-b border-gray-100 shadow-2xl overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
-                <div class="flex items-center justify-between mb-8">
-                    <div class="flex-1 max-w-2xl relative">
+        <div class="absolute inset-0 bg-black/10 backdrop-blur-[2px]" onclick="closeSearch()"></div>
+        <div class="relative search-inner-container w-full overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 py-6 md:py-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex-1 max-w-xl relative">
                         <input type="text" id="premium-search-input" 
                                placeholder="Search COODE products..." 
-                               class="w-full text-2xl md:text-4xl font-black italic tracking-tighter outline-none border-none placeholder:text-gray-200 uppercase"
+                               class="w-full text-xl md:text-2xl font-bold italic tracking-tighter outline-none border-none placeholder:text-gray-200 uppercase bg-transparent"
                                oninput="handleLiveSearch(this.value)"
                                onkeydown="handleSearchKeyDown(event)">
-                        <div id="search-suggestion" class="absolute top-0 left-0 text-2xl md:text-4xl font-black italic tracking-tighter text-gray-200 pointer-events-none uppercase"></div>
+                        <div id="search-suggestion" class="absolute top-0 left-0 text-xl md:text-2xl font-bold italic tracking-tighter text-gray-200 pointer-events-none uppercase"></div>
                     </div>
-                    <button onclick="closeSearch()" class="text-4xl font-light hover:rotate-90 transition-transform duration-300">&times;</button>
+                    <button onclick="closeSearch()" class="text-2xl font-light hover:opacity-50 transition-opacity">&times;</button>
                 </div>
 
-                <div id="live-results-container" class="hidden">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Suggested Products</p>
-                    <div id="live-results-grid" class="grid grid-cols-3 md:grid-cols-4 gap-4 md:gap-8">
+                <div id="live-results-container">
+                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-4">Explore Collection</p>
+                    <div id="live-results-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
                         </div>
                 </div>
             </div>
@@ -111,13 +112,16 @@
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16 md:h-20">
             
-            <button onclick="openSearch()" class="p-2 hover:opacity-50 transition mr-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            </button>
+            <div class="flex-shrink-0 flex items-center">
+                <button onclick="openSearch()" class="mr-3 p-1 hover:opacity-50 transition">
+                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="font-black text-2xl tracking-tighter cursor-pointer select-none">
+                    COODE
+                </div>
+            </div>
 
-            <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex-shrink-0 font-black text-2xl tracking-tighter cursor-pointer select-none">COODE</div>
-
-            <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-[150px] md:max-w-xs pointer-events-none">
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-[120px] md:max-w-xs pointer-events-none">
                 <div id="info-ticker" class="text-[10px] md:text-xs font-bold text-gray-500 text-center uppercase tracking-widest">
                     <div class="info-slide">New Drop This Week</div>
                     <div class="info-slide">COODE — Built Different</div>
@@ -240,55 +244,41 @@
     </div>
 
     <script>
-        // --- CART ENGINE ---
+        // --- CART ENGINE (PRESERVED) ---
         let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
-
         function clearFullCart() {
             if (cart.length === 0) return;
-            if (confirm("Empty your cart?")) {
-                cart = [];
-                saveAndSync();
-            }
+            if (confirm("Empty your cart?")) { cart = []; saveAndSync(); }
         }
-
         function openCart() {
             document.getElementById('cart-overlay').classList.remove('hidden');
             document.getElementById('cart-panel').classList.remove('translate-x-full');
             renderCart();
         }
-
         function closeCart() {
             document.getElementById('cart-overlay').classList.add('hidden');
             document.getElementById('cart-panel').classList.add('translate-x-full');
         }
-
         function addToCart(name, price, img) {
             const item = cart.find(i => i.name === name);
-            if (item) item.qty++;
-            else cart.push({ name, price, img, qty: 1 });
-            saveAndSync();
-            openCart();
+            if (item) item.qty++; else cart.push({ name, price, img, qty: 1 });
+            saveAndSync(); openCart();
         }
-
         function updateQty(index, delta) {
             cart[index].qty += delta;
             if (cart[index].qty <= 0) cart.splice(index, 1);
             saveAndSync();
         }
-
         function saveAndSync() {
             localStorage.setItem('coode_cart', JSON.stringify(cart));
-            renderCart();
-            updateCartBadge();
+            renderCart(); updateCartBadge();
         }
-
         function updateCartBadge() {
             const badge = document.getElementById('cart-count');
             const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
             badge.innerText = totalItems;
             badge.classList.toggle('hidden', totalItems === 0);
         }
-
         function renderCart() {
             const container = document.getElementById('cart-items-container');
             let total = 0;
@@ -297,8 +287,7 @@
             } else {
                 container.innerHTML = cart.map((item, i) => {
                     total += item.price * item.qty;
-                    return `
-                        <div class="flex items-center space-x-4 animate-fadeIn border-b pb-4">
+                    return `<div class="flex items-center space-x-4 border-b pb-4">
                             <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
                             <div class="flex-1">
                                 <h4 class="text-[10px] font-black uppercase tracking-tight">${item.name}</h4>
@@ -317,64 +306,52 @@
             document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
         }
 
-        // --- UPDATE 2: PREMIUM LIVE SEARCH ENGINE ---
+        // --- SEARCH ENGINE ---
         const overlay = document.getElementById('search-overlay');
         const searchInput = document.getElementById('premium-search-input');
         const ghostText = document.getElementById('search-suggestion');
         const resultsGrid = document.getElementById('live-results-grid');
-        const resultsContainer = document.getElementById('live-results-container');
 
         function openSearch() {
             overlay.classList.remove('invisible', 'opacity-0');
             searchInput.focus();
+            handleLiveSearch(''); 
         }
 
         function closeSearch() {
             overlay.classList.add('invisible', 'opacity-0');
             searchInput.value = '';
             ghostText.innerText = '';
-            resultsContainer.classList.add('hidden');
         }
 
         function handleLiveSearch(val) {
             const query = val.toLowerCase().trim();
-            if (query.length === 0) {
-                ghostText.innerText = '';
-                resultsContainer.classList.add('hidden');
-                return;
-            }
+            const filtered = query === '' 
+                ? products 
+                : products.filter(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    p.category.toLowerCase().includes(query) || 
+                    p.keywords.some(k => k.includes(query))
+                );
 
-            // 1. Logic for Autocomplete Suggestion
-            const suggestion = products.find(p => p.name.toLowerCase().startsWith(query) || p.category.toLowerCase().startsWith(query));
-            if (suggestion) {
-                const targetText = suggestion.name.toLowerCase().startsWith(query) ? suggestion.name : suggestion.category;
-                ghostText.innerText = val + targetText.substring(query.length);
-            } else {
-                ghostText.innerText = '';
-            }
-
-            // 2. Logic for Live Results Grid
-            const filtered = products.filter(p => 
-                p.name.toLowerCase().includes(query) || 
-                p.category.toLowerCase().includes(query) || 
-                p.keywords.some(k => k.includes(query))
-            );
-
-            if (filtered.length > 0) {
-                resultsContainer.classList.remove('hidden');
-                // Slice based on instructions: 8 desktop, 6 mobile
-                const limit = window.innerWidth > 768 ? 8 : 6;
-                resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `
-                    <div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group">
-                        <div class="aspect-square bg-gray-50 overflow-hidden rounded-md mb-2">
-                            <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        </div>
-                        <h4 class="text-[9px] font-black uppercase leading-tight truncate">${p.name}</h4>
-                        <p class="text-[9px] text-gray-400 font-bold">$${p.price.toFixed(2)}</p>
+            const limit = window.innerWidth > 768 ? 8 : 6;
+            
+            resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `
+                <div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group animate-fadeIn">
+                    <div class="aspect-square bg-gray-50 overflow-hidden rounded-sm mb-1">
+                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
-                `).join('');
+                    <h4 class="text-[8px] font-bold uppercase leading-tight truncate tracking-tighter">${p.name}</h4>
+                    <p class="text-[8px] text-gray-400 font-bold tracking-widest">$${p.price.toFixed(2)}</p>
+                </div>
+            `).join('');
+
+            if (query.length > 0) {
+                const suggestion = products.find(p => p.name.toLowerCase().startsWith(query));
+                if (suggestion) ghostText.innerText = val + suggestion.name.toLowerCase().substring(query.length);
+                else ghostText.innerText = '';
             } else {
-                resultsGrid.innerHTML = `<p class="text-[10px] uppercase font-bold text-gray-300">No products found</p>`;
+                ghostText.innerText = '';
             }
         }
 
@@ -395,18 +372,17 @@
             const el = document.getElementById('prod-' + id);
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                el.classList.add('ring-4', 'ring-black/10');
-                setTimeout(() => el.classList.remove('ring-4', 'ring-black/10'), 2000);
+                el.classList.add('ring-2', 'ring-black/10');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-black/10'), 1500);
             }
         }
 
-        // --- WELCOME POPUP LOGIC ---
+        // --- WELCOME POPUP ---
         window.addEventListener('load', () => {
             if (!localStorage.getItem('coode_visited')) {
                 document.getElementById('welcome-popup').classList.replace('hidden', 'flex');
             }
         });
-
         function acceptWelcome() {
             localStorage.setItem('coode_visited', 'true');
             document.getElementById('welcome-popup').classList.replace('flex', 'hidden');
@@ -419,25 +395,20 @@
             let subs = JSON.parse(localStorage.getItem('coode_subscribers')) || [];
             subs.push({email: email, date: new Date().toISOString()});
             localStorage.setItem('coode_subscribers', JSON.stringify(subs));
-            
             document.getElementById('signup-email').value = '';
             const msg = document.getElementById('signup-msg');
             msg.classList.remove('hidden');
             setTimeout(() => msg.classList.add('hidden'), 3000);
         }
 
-        // --- REFINED TICKER (7s Interval) ---
+        // --- REFINED TICKER ---
         const slides = document.querySelectorAll('#info-ticker .info-slide');
         let currentSlide = 0;
         setInterval(() => {
             currentSlide = (currentSlide + 1) % slides.length;
-            slides.forEach((s) => {
-                s.style.transform = `translateY(-${currentSlide * 24}px)`;
-            });
+            slides.forEach((s) => { s.style.transform = `translateY(-${currentSlide * 24}px)`; });
         }, 7000);
 
-        // --- UI UTILS ---
-        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('translate-x-full'); }
         function openModal() { document.getElementById('contactModal').classList.replace('hidden', 'flex'); }
         function closeModal() { document.getElementById('contactModal').classList.replace('flex', 'hidden'); }
 

@@ -6,71 +6,25 @@
     <title>Shop | COODE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Smooth transitions for product images */
-        .product-card img {
-            transition: transform 0.5s ease;
-        }
-        .product-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Mobile menu & Cart transitions */
-        .slide-transition {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Hide scrollbar for clean look in cart */
-        #cart-items-container::-webkit-scrollbar {
-            width: 4px;
-        }
-        #cart-items-container::-webkit-scrollbar-thumb {
-            background: #e5e7eb;
-            border-radius: 10px;
-        }
-
-        /* Info ticker animation */
-        #info-ticker {
-            height: 24px;
-            overflow: hidden;
-        }
-        #info-ticker .info-slide {
-            height: 24px;
-            line-height: 24px;
-            transition: transform 0.5s ease;
-            white-space: nowrap;
-        }
-
-        /* Search Overlay Styles (Luxury Look) */
-        #search-overlay {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .search-inner-container {
-            background: rgba(255, 255, 255, 0.98); 
-            border-bottom: 1px solid #f3f4f6; 
-        }
-        .live-result-card {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        /* --- NEW: LUXURY MOBILE MENU STYLES --- */
-        #mobile-nav-overlay {
-            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-            transform: translateY(-100%);
-        }
-        #mobile-nav-overlay.active {
-            transform: translateY(0);
-        }
-        .nav-link-mobile {
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-            padding: 1.25rem 0;
-            border-bottom: 1px solid #f3f4f6;
-            width: 100%;
-            display: block;
-            font-weight: 300;
-        }
-        /* Lock scroll helper */
+        .product-card img { transition: transform 0.5s ease; }
+        .product-card:hover img { transform: scale(1.05); }
+        .slide-transition { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #cart-items-container::-webkit-scrollbar { width: 4px; }
+        #cart-items-container::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        #info-ticker { height: 24px; overflow: hidden; }
+        #info-ticker .info-slide { height: 24px; line-height: 24px; transition: transform 0.5s ease; white-space: nowrap; }
+        #search-overlay { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .search-inner-container { background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid #f3f4f6; }
+        .live-result-card { transition: opacity 0.3s ease, transform 0.3s ease; }
+        #mobile-nav-overlay { transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); transform: translateY(-100%); }
+        #mobile-nav-overlay.active { transform: translateY(0); }
+        .nav-link-mobile { font-size: 1.5rem; letter-spacing: 0.1em; padding: 1.25rem 0; border-bottom: 1px solid #f3f4f6; width: 100%; display: block; font-weight: 300; }
         .no-scroll { overflow: hidden; }
+
+        /* Custom Jersey Glow Accents */
+        .glow-blue:hover { box-shadow: inset 0 0 50px rgba(59, 130, 246, 0.1); }
+        .glow-red:hover { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.1); }
+        .glow-black:hover { box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
@@ -90,10 +44,7 @@
                 <span id="mobile-cart-count" class="text-xs bg-black text-white px-2 py-0.5 rounded-full">0</span>
             </button>
             <button onclick="toggleMobileMenu(); openModal();" class="nav-link-mobile uppercase">Contact Us</button>
-            
-            <div class="mt-auto py-12 text-[10px] text-gray-400 tracking-[0.3em] uppercase">
-                &copy; 2026 COODE — Worldwide Vision
-            </div>
+            <div class="mt-auto py-12 text-[10px] text-gray-400 tracking-[0.3em] uppercase">&copy; 2026 COODE</div>
         </div>
     </div>
 
@@ -103,20 +54,14 @@
             <div class="max-w-7xl mx-auto px-4 py-6 md:py-10">
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex-1 max-w-xl relative">
-                        <input type="text" id="premium-search-input" 
-                               placeholder="Search COODE products..." 
-                               class="w-full text-xl md:text-2xl font-bold italic tracking-tighter outline-none border-none placeholder:text-gray-200 uppercase bg-transparent"
-                               oninput="handleLiveSearch(this.value)"
-                               onkeydown="handleSearchKeyDown(event)">
+                        <input type="text" id="premium-search-input" placeholder="Search COODE products..." class="w-full text-xl md:text-2xl font-bold italic tracking-tighter outline-none border-none placeholder:text-gray-200 uppercase bg-transparent" oninput="handleLiveSearch(this.value)" onkeydown="handleSearchKeyDown(event)">
                         <div id="search-suggestion" class="absolute top-0 left-0 text-xl md:text-2xl font-bold italic tracking-tighter text-gray-200 pointer-events-none uppercase"></div>
                     </div>
                     <button onclick="closeSearch()" class="text-2xl font-light hover:opacity-50 transition-opacity">&times;</button>
                 </div>
-
                 <div id="live-results-container">
                     <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-4">Explore Collection</p>
-                    <div id="live-results-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
-                        </div>
+                    <div id="live-results-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6"></div>
                 </div>
             </div>
         </div>
@@ -127,7 +72,6 @@
         <div class="relative bg-white w-full max-w-md rounded-3xl p-8 text-center shadow-2xl">
             <h1 class="text-4xl font-black italic tracking-tighter mb-2">COODE</h1>
             <h2 class="text-xl font-bold mb-6">Welcome to COODE</h2>
-            
             <div class="space-y-4">
                 <div class="text-left">
                     <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Select Region</label>
@@ -139,30 +83,20 @@
                         <option value="INT">International</option>
                     </select>
                 </div>
-                
-                <p class="text-xs text-gray-500 leading-relaxed">
-                    By entering, you agree to our use of cookies to enhance your shopping experience and analyze site traffic.
-                </p>
-
-                <button onclick="acceptWelcome()" class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-sm hover:bg-gray-800 transition">
-                    ENTER SHOP
-                </button>
+                <p class="text-xs text-gray-500 leading-relaxed">By entering, you agree to our terms and cookies.</p>
+                <button onclick="acceptWelcome()" class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-sm hover:bg-gray-800 transition">ENTER SHOP</button>
             </div>
         </div>
     </div>
 
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center h-16 md:h-20">
-            
             <div class="flex-shrink-0 flex items-center">
-                <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="font-black text-2xl tracking-tighter cursor-pointer select-none">
-                    COODE
-                </div>
+                <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="font-black text-2xl tracking-tighter cursor-pointer select-none">COODE</div>
                 <button onclick="openSearch()" class="ml-4 p-1 hover:opacity-50 transition">
                     <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
             </div>
-
             <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-[120px] md:max-w-xs pointer-events-none">
                 <div id="info-ticker" class="text-[10px] md:text-xs font-bold text-gray-500 text-center uppercase tracking-widest">
                     <div class="info-slide">New Drop This Week</div>
@@ -172,18 +106,13 @@
                     <div class="info-slide">Worldwide Vision. Local Roots.</div>
                 </div>
             </div>
-
             <div class="ml-auto flex items-center space-x-4 md:space-x-8">
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="index.html" class="text-sm font-medium hover:text-gray-500 transition">Home</a>
                     <a href="shop.html" class="text-sm font-bold border-b-2 border-black">Shop</a>
-                    <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">
-                        Cart
-                        <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                    </button>
+                    <button onclick="openCart()" class="text-sm font-medium hover:text-gray-500 transition relative">Cart <span id="cart-count" class="hidden absolute -top-2 -right-3 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span></button>
                     <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
                 </div>
-
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
                 </button>
@@ -191,14 +120,12 @@
         </div>
     </nav>
 
-    <header id="hero" onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" 
-            class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
+    <header id="hero" onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' });" class="w-full h-[30vh] md:h-[50vh] flex items-center justify-center border-b overflow-hidden cursor-pointer">
         <img src="assets/images/Gemini_Generated_Image_373mu5373mu5373m.png" class="w-full h-full object-cover object-center">
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-16">
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-24" id="product-grid">
+    <main>
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-24" id="product-grid">
             <script>
                 const products = [
                     { id: 1, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-1.png" },
@@ -214,14 +141,11 @@
                     { id: 11, name: "COODE Base Cap - Brown", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Brown.png" },
                     { id: 12, name: "COODE Base Cap - Green", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Green.png" }
                 ];
-
                 document.write(products.map(p => `
-                    <div id="prod-${p.id}" class="product-card group flex flex-col" data-name="${p.name.toLowerCase()}" data-category="${p.category.toLowerCase()}" data-keywords="${p.keywords.join(' ')}">
+                    <div id="prod-${p.id}" class="product-card group flex flex-col">
                         <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
                             <img src="${p.img}" class="w-full h-full object-cover">
-                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                                ADD TO CART
-                            </button>
+                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">ADD TO CART</button>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-sm font-bold uppercase tracking-tight">${p.name}</h3>
@@ -232,20 +156,55 @@
             </script>
         </div>
 
-        <div class="mt-20 group relative overflow-hidden rounded-2xl cursor-pointer">
-            <img 
-                src="assets/images/coode-bag.png.png" 
-                class="w-full h-[400px] md:h-[600px] object-cover transition duration-700 group-hover:scale-105"
-                onclick="addToCart('COODE Signature Bag', 1500.00, 'assets/images/coode-bag.png.png')"
-            >
-            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
-                <div class="bg-white px-8 py-4 rounded-full font-black italic tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-500">
-                    ADD TO BAG — $1500.00
+        <section class="w-full h-[80vh] md:h-screen relative overflow-hidden cursor-pointer group" onclick="addToCart('COODE Signature Bag', 1500.00, 'assets/images/coode-bag.png.png')">
+            <img src="assets/images/coode-bag.png.png" class="w-full h-full object-cover transition duration-1000 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                <div class="bg-white/90 backdrop-blur-md px-10 py-5 rounded-full font-black italic tracking-tighter opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-500 text-lg">
+                    ADD SIGNATURE BAG — $1500.00
                 </div>
             </div>
-        </div>
+        </section>
 
-        <section class="mt-32 py-20 bg-gray-50 rounded-3xl text-center px-4">
+        <section class="py-10 md:py-0 border-t border-gray-100 bg-white">
+            <div class="px-6 py-8 text-center">
+                <span class="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase">Limited Release</span>
+                <h2 class="text-2xl font-black italic tracking-tighter uppercase mt-1">Shop Jerseys</h2>
+            </div>
+            
+            <div class="flex flex-col">
+                <div onclick="addToCart('COODE Jersey - Blue', 85.00, 'assets/images/jersey-blue.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-blue">
+                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+                        <div class="z-10">
+                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Blue</h3>
+                            <p class="text-xs font-bold tracking-widest text-blue-500 uppercase">Available Now</p>
+                        </div>
+                        <img src="assets/images/jersey-blue.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                </div>
+
+                <div onclick="addToCart('COODE Jersey - Red', 85.00, 'assets/images/jersey-red.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-red">
+                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+                        <div class="z-10">
+                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Red</h3>
+                            <p class="text-xs font-bold tracking-widest text-red-500 uppercase">Available Now</p>
+                        </div>
+                        <img src="assets/images/jersey-red.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:-rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                </div>
+
+                <div onclick="addToCart('COODE Jersey - Black', 85.00, 'assets/images/jersey-black.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-black">
+                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+                        <div class="z-10">
+                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Black</h3>
+                            <p class="text-xs font-bold tracking-widest text-gray-400 uppercase">Available Now</p>
+                        </div>
+                        <img src="assets/images/jersey-black.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 bg-gray-50 text-center px-4">
             <h2 class="text-3xl font-black italic tracking-tighter uppercase mb-2">Join the COODE Club</h2>
             <p class="text-gray-500 text-sm mb-8 uppercase tracking-widest font-bold">Get early access to drops and exclusive offers.</p>
             <form onsubmit="handleSignup(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
@@ -254,7 +213,6 @@
             </form>
             <p id="signup-msg" class="mt-4 text-xs font-bold uppercase text-green-600 hidden">Success! Check your inbox soon.</p>
         </section>
-
     </main>
 
     <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[100] hidden backdrop-blur-sm" onclick="closeCart()"></div>
@@ -262,14 +220,14 @@
         <div class="p-6 border-b flex justify-between items-center">
             <h2 class="text-xl font-black italic tracking-tighter uppercase">Your Cart</h2>
             <div class="flex items-center space-x-4">
-                <button onclick="clearFullCart()" class="text-xs font-bold text-red-500 hover:text-red-700 transition flex items-center space-x-1 uppercase">Clear</button>
-                <button onclick="closeCart()" class="text-gray-400 hover:text-black text-2xl leading-none">&times;</button>
+                <button onclick="clearFullCart()" class="text-xs font-bold text-red-500 hover:text-red-700 transition uppercase">Clear</button>
+                <button onclick="closeCart()" class="text-gray-400 text-2xl">&times;</button>
             </div>
         </div>
         <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
         <div class="p-6 border-t bg-gray-50">
             <div class="flex justify-between items-center mb-6">
-                <span class="font-medium text-gray-500 uppercase text-xs tracking-widest font-bold">Subtotal</span>
+                <span class="text-xs tracking-widest font-bold uppercase text-gray-500">Subtotal</span>
                 <span id="cart-subtotal" class="text-2xl font-black italic tracking-tighter">$0.00</span>
             </div>
             <button class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-xs uppercase hover:bg-gray-800 transition">Checkout</button>
@@ -290,183 +248,69 @@
     </div>
 
     <script>
-        // --- MOBILE MENU LOGIC (NEW) ---
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-nav-overlay');
-            const body = document.body;
-            menu.classList.toggle('active');
-            body.classList.toggle('no-scroll');
+            document.getElementById('mobile-nav-overlay').classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
         }
 
-        // --- CART ENGINE ---
         let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
-        function clearFullCart() {
-            if (cart.length === 0) return;
-            if (confirm("Empty your cart?")) { cart = []; saveAndSync(); }
-        }
-        function openCart() {
-            document.getElementById('cart-overlay').classList.remove('hidden');
-            document.getElementById('cart-panel').classList.remove('translate-x-full');
-            renderCart();
-        }
-        function closeCart() {
-            document.getElementById('cart-overlay').classList.add('hidden');
-            document.getElementById('cart-panel').classList.add('translate-x-full');
-        }
+        function clearFullCart() { if (cart.length > 0 && confirm("Empty your cart?")) { cart = []; saveAndSync(); } }
+        function openCart() { document.getElementById('cart-overlay').classList.remove('hidden'); document.getElementById('cart-panel').classList.remove('translate-x-full'); renderCart(); }
+        function closeCart() { document.getElementById('cart-overlay').classList.add('hidden'); document.getElementById('cart-panel').classList.add('translate-x-full'); }
         function addToCart(name, price, img) {
             const item = cart.find(i => i.name === name);
             if (item) item.qty++; else cart.push({ name, price, img, qty: 1 });
             saveAndSync(); openCart();
         }
-        function updateQty(index, delta) {
-            cart[index].qty += delta;
-            if (cart[index].qty <= 0) cart.splice(index, 1);
-            saveAndSync();
-        }
-        function saveAndSync() {
-            localStorage.setItem('coode_cart', JSON.stringify(cart));
-            renderCart(); updateCartBadge();
-        }
+        function updateQty(index, delta) { cart[index].qty += delta; if (cart[index].qty <= 0) cart.splice(index, 1); saveAndSync(); }
+        function saveAndSync() { localStorage.setItem('coode_cart', JSON.stringify(cart)); renderCart(); updateCartBadge(); }
         function updateCartBadge() {
-            const badge = document.getElementById('cart-count');
-            const mobileBadge = document.getElementById('mobile-cart-count'); // NEW: SYNC MOBILE
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            
-            badge.innerText = totalItems;
-            badge.classList.toggle('hidden', totalItems === 0);
-            
-            mobileBadge.innerText = totalItems;
-            mobileBadge.classList.toggle('hidden', totalItems === 0);
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-count').classList.toggle('hidden', count === 0);
+            document.getElementById('mobile-cart-count').innerText = count;
+            document.getElementById('mobile-cart-count').classList.toggle('hidden', count === 0);
         }
         function renderCart() {
             const container = document.getElementById('cart-items-container');
             let total = 0;
-            if (cart.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-gray-400 italic text-sm uppercase tracking-widest">Bag is empty</div>`;
-            } else {
+            if (cart.length === 0) { container.innerHTML = `<div class="text-center py-20 text-gray-400 italic text-sm uppercase">Bag is empty</div>`; }
+            else {
                 container.innerHTML = cart.map((item, i) => {
                     total += item.price * item.qty;
-                    return `<div class="flex items-center space-x-4 border-b pb-4">
-                            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100">
-                            <div class="flex-1">
-                                <h4 class="text-[10px] font-black uppercase tracking-tight">${item.name}</h4>
-                                <div class="flex items-center space-x-3 mt-2">
-                                    <div class="flex items-center border rounded-full px-2 py-0.5">
-                                        <button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400 hover:text-black">-</button>
-                                        <span class="text-[10px] font-bold w-4 text-center">${item.qty}</span>
-                                        <button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400 hover:text-black">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="text-xs font-black italic tracking-tighter">$${(item.price * item.qty).toFixed(2)}</span>
-                        </div>`;
+                    return `<div class="flex items-center space-x-4 border-b pb-4"><img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100"><div class="flex-1"><h4 class="text-[10px] font-black uppercase">${item.name}</h4><div class="flex items-center space-x-3 mt-2"><div class="flex items-center border rounded-full px-2"><button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400">-</button><span class="text-[10px] font-bold w-4 text-center">${item.qty}</span><button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400">+</button></div></div></div><span class="text-xs font-black italic">$${(item.price * item.qty).toFixed(2)}</span></div>`;
                 }).join('');
             }
             document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
         }
 
-        // --- SEARCH ENGINE ---
         const overlay = document.getElementById('search-overlay');
         const searchInput = document.getElementById('premium-search-input');
         const ghostText = document.getElementById('search-suggestion');
         const resultsGrid = document.getElementById('live-results-grid');
 
-        function openSearch() {
-            overlay.classList.remove('invisible', 'opacity-0');
-            searchInput.focus();
-            handleLiveSearch(''); 
-        }
-
-        function closeSearch() {
-            overlay.classList.add('invisible', 'opacity-0');
-            searchInput.value = '';
-            ghostText.innerText = '';
-        }
-
+        function openSearch() { overlay.classList.remove('invisible', 'opacity-0'); searchInput.focus(); handleLiveSearch(''); }
+        function closeSearch() { overlay.classList.add('invisible', 'opacity-0'); searchInput.value = ''; ghostText.innerText = ''; }
         function handleLiveSearch(val) {
             const query = val.toLowerCase().trim();
-            const filtered = query === '' 
-                ? products 
-                : products.filter(p => 
-                    p.name.toLowerCase().includes(query) || 
-                    p.category.toLowerCase().includes(query) || 
-                    p.keywords.some(k => k.includes(query))
-                );
-
+            const filtered = query === '' ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
             const limit = window.innerWidth > 768 ? 8 : 6;
-            
-            resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `
-                <div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group animate-fadeIn">
-                    <div class="aspect-square bg-gray-50 overflow-hidden rounded-sm mb-1">
-                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <h4 class="text-[8px] font-bold uppercase leading-tight truncate tracking-tighter">${p.name}</h4>
-                    <p class="text-[8px] text-gray-400 font-bold tracking-widest">$${p.price.toFixed(2)}</p>
-                </div>
-            `).join('');
-
+            resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `<div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group"><div class="aspect-square bg-gray-50 overflow-hidden rounded-sm mb-1"><img src="${p.img}" class="w-full h-full object-cover"></div><h4 class="text-[8px] font-bold uppercase truncate">${p.name}</h4><p class="text-[8px] text-gray-400 font-bold">$${p.price.toFixed(2)}</p></div>`).join('');
             if (query.length > 0) {
                 const suggestion = products.find(p => p.name.toLowerCase().startsWith(query));
-                if (suggestion) ghostText.innerText = val + suggestion.name.toLowerCase().substring(query.length);
-                else ghostText.innerText = '';
-            } else {
-                ghostText.innerText = '';
-            }
+                if (suggestion) ghostText.innerText = val + suggestion.name.toLowerCase().substring(query.length); else ghostText.innerText = '';
+            } else ghostText.innerText = '';
         }
+        function handleSearchKeyDown(e) { if (e.key === 'Tab' && ghostText.innerText) { e.preventDefault(); searchInput.value = ghostText.innerText; } if (e.key === 'Enter') { const match = products.find(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase())); if (match) navigateToProduct(match.id); } if (e.key === 'Escape') closeSearch(); }
+        function navigateToProduct(id) { closeSearch(); const el = document.getElementById('prod-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
-        function handleSearchKeyDown(e) {
-            if (e.key === 'Tab' && ghostText.innerText) {
-                e.preventDefault();
-                searchInput.value = ghostText.innerText;
-            }
-            if (e.key === 'Enter') {
-                const firstMatch = products.find(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase()));
-                if (firstMatch) navigateToProduct(firstMatch.id);
-            }
-            if (e.key === 'Escape') closeSearch();
-        }
-
-        function navigateToProduct(id) {
-            closeSearch();
-            const el = document.getElementById('prod-' + id);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                el.classList.add('ring-2', 'ring-black/10');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-black/10'), 1500);
-            }
-        }
-
-        // --- WELCOME POPUP ---
-        window.addEventListener('load', () => {
-            if (!localStorage.getItem('coode_visited')) {
-                document.getElementById('welcome-popup').classList.replace('hidden', 'flex');
-            }
-        });
-        function acceptWelcome() {
-            localStorage.setItem('coode_visited', 'true');
-            document.getElementById('welcome-popup').classList.replace('flex', 'hidden');
-        }
-
-        // --- SIGNUP LOGIC ---
-        function handleSignup(e) {
-            e.preventDefault();
-            const email = document.getElementById('signup-email').value;
-            let subs = JSON.parse(localStorage.getItem('coode_subscribers')) || [];
-            subs.push({email: email, date: new Date().toISOString()});
-            localStorage.setItem('coode_subscribers', JSON.stringify(subs));
-            document.getElementById('signup-email').value = '';
-            const msg = document.getElementById('signup-msg');
-            msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 3000);
-        }
-
-        // --- REFINED TICKER ---
+        window.addEventListener('load', () => { if (!localStorage.getItem('coode_visited')) document.getElementById('welcome-popup').classList.replace('hidden', 'flex'); });
+        function acceptWelcome() { localStorage.setItem('coode_visited', 'true'); document.getElementById('welcome-popup').classList.replace('flex', 'hidden'); }
+        function handleSignup(e) { e.preventDefault(); document.getElementById('signup-email').value = ''; const msg = document.getElementById('signup-msg'); msg.classList.remove('hidden'); setTimeout(() => msg.classList.add('hidden'), 3000); }
+        
         const slides = document.querySelectorAll('#info-ticker .info-slide');
         let currentSlide = 0;
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides.forEach((s) => { s.style.transform = `translateY(-${currentSlide * 24}px)`; });
-        }, 7000);
+        setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; slides.forEach((s) => { s.style.transform = `translateY(-${currentSlide * 24}px)`; }); }, 7000);
 
         function openModal() { document.getElementById('contactModal').classList.replace('hidden', 'flex'); }
         function closeModal() { document.getElementById('contactModal').classList.replace('flex', 'hidden'); }

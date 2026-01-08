@@ -51,9 +51,51 @@
         .live-result-card {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
+
+        /* --- NEW: LUXURY MOBILE MENU STYLES --- */
+        #mobile-nav-overlay {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transform: translateY(-100%);
+        }
+        #mobile-nav-overlay.active {
+            transform: translateY(0);
+        }
+        .nav-link-mobile {
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid #f3f4f6;
+            width: 100%;
+            display: block;
+            font-weight: 300;
+        }
+        /* Lock scroll helper */
+        .no-scroll { overflow: hidden; }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
+
+    <div id="mobile-nav-overlay" class="fixed inset-0 z-[200] bg-white flex flex-col md:hidden">
+        <div class="h-16 flex items-center justify-between px-4 border-b">
+            <div class="font-black text-2xl tracking-tighter uppercase">COODE</div>
+            <button onclick="toggleMobileMenu()" class="p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="flex-1 px-8 py-12 flex flex-col items-start overflow-y-auto">
+            <a href="index.html" class="nav-link-mobile uppercase">Home</a>
+            <a href="shop.html" class="nav-link-mobile uppercase font-bold italic">Shop</a>
+            <button onclick="toggleMobileMenu(); openCart();" class="nav-link-mobile uppercase flex justify-between items-center w-full">
+                Cart
+                <span id="mobile-cart-count" class="text-xs bg-black text-white px-2 py-0.5 rounded-full">0</span>
+            </button>
+            <button onclick="toggleMobileMenu(); openModal();" class="nav-link-mobile uppercase">Contact Us</button>
+            
+            <div class="mt-auto py-12 text-[10px] text-gray-400 tracking-[0.3em] uppercase">
+                &copy; 2026 COODE — Worldwide Vision
+            </div>
+        </div>
+    </div>
 
     <div id="search-overlay" class="fixed inset-0 z-[150] invisible opacity-0">
         <div class="absolute inset-0 bg-black/10 backdrop-blur-[2px]" onclick="closeSearch()"></div>
@@ -141,6 +183,10 @@
                     </button>
                     <button onclick="openModal()" class="bg-black text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">Contact Us</button>
                 </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
+                </button>
             </div>
         </div>
     </nav>
@@ -244,6 +290,14 @@
     </div>
 
     <script>
+        // --- MOBILE MENU LOGIC (NEW) ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-nav-overlay');
+            const body = document.body;
+            menu.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+        }
+
         // --- CART ENGINE ---
         let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
         function clearFullCart() {
@@ -275,9 +329,14 @@
         }
         function updateCartBadge() {
             const badge = document.getElementById('cart-count');
+            const mobileBadge = document.getElementById('mobile-cart-count'); // NEW: SYNC MOBILE
             const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            
             badge.innerText = totalItems;
             badge.classList.toggle('hidden', totalItems === 0);
+            
+            mobileBadge.innerText = totalItems;
+            mobileBadge.classList.toggle('hidden', totalItems === 0);
         }
         function renderCart() {
             const container = document.getElementById('cart-items-container');

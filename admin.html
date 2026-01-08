@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | COODE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-black font-sans antialiased">
+    <div id="auth-screen" class="fixed inset-0 bg-white z-[500] flex items-center justify-center p-4">
+        <div class="max-w-xs w-full text-center">
+            <h1 class="text-3xl font-black italic tracking-tighter mb-8">COODE ADMIN</h1>
+            <input type="password" id="admin-pass" placeholder="ENTER PASSCODE" class="w-full border-b-2 border-black py-3 text-center outline-none mb-4 tracking-widest">
+            <button onclick="checkAuth()" class="w-full bg-black text-white py-4 rounded-full font-bold text-xs tracking-widest hover:bg-gray-800 transition">ACCESS PANEL</button>
+        </div>
+    </div>
 
+    <div id="admin-panel" class="hidden max-w-4xl mx-auto px-4 py-12">
+        <div class="flex justify-between items-center mb-12 border-b pb-6">
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase">Product Management</h1>
+            <button onclick="location.href='shop.html'" class="text-[10px] font-bold tracking-widest border-b border-black uppercase">View Store</button>
+        </div>
+
+        <section class="bg-white p-8 rounded-2xl shadow-sm mb-12 border border-gray-100">
+            <h2 class="text-sm font-black uppercase tracking-widest mb-6">Add New Product</h2>
+            <form id="add-prod-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="name" placeholder="Product Name" required class="border p-3 rounded-lg text-sm">
+                <input type="number" id="price" step="0.01" placeholder="Price (e.g. 85.00)" required class="border p-3 rounded-lg text-sm">
+                <input type="text" id="img" placeholder="Image Path (e.g. assets/images/shirt.png)" required class="border p-3 rounded-lg text-sm">
+                <select id="category" class="border p-3 rounded-lg text-sm">
+                    <option value="Tshirt">Tshirt</option>
+                    <option value="Cap">Cap</option>
+                    <option value="Jersey">Jersey</option>
+                    <option value="Accessory">Accessory</option>
+                </select>
+                <div class="flex items-center space-x-4 px-2">
+                    <label class="text-xs font-bold uppercase tracking-widest">Limited Edition</label>
+                    <input type="checkbox" id="isLimited" class="w-4 h-4">
+                </div>
+                <button type="submit" class="md:col-span-2 bg-black text-white py-4 rounded-lg font-black tracking-widest text-xs uppercase mt-2">Create Product</button>
+            </form>
+        </section>
+
+        <div id="product-list" class="space-y-4"></div>
+    </div>
+
+    <script>
+        const DEFAULT_PRODUCTS = [
+            { id: 1, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png", isSoldOut: false, isLimited: false },
+            { id: 2, name: "COODE Black Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png", isSoldOut: false, isLimited: false },
+            { id: 3, name: "COODE Base Cap - Blue", category: "Cap", price: 25.00, img: "assets/images/cap-blue.png", isSoldOut: false, isLimited: false },
+            { id: 4, name: "COODE Jersey - Blue", category: "Jersey", price: 85.00, img: "assets/images/jersey-blue.png", isSoldOut: false, isLimited: true }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('coode_products')) || DEFAULT_PRODUCTS;
+
+        function checkAuth() {
+            if(document.getElementById('admin-pass').value === 'COODE2026') {
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                renderProducts();
+            } else { alert('Incorrect Passcode'); }
+        }
+
+        document.getElementById('add-prod-form').onsubmit = (e) => {
+            e.preventDefault();
+            const newProd = {
+                id: Date.now(),
+                name: document.getElementById('name').value,
+                price: parseFloat(document.getElementById('price').value),
+                img: document.getElementById('img').value,
+                category: document.getElementById('category').value,
+                isLimited: document.getElementById('isLimited').checked,
+                isSoldOut: false
+            };
+            products.push(newProd);
+            save();
+            e.target.reset();
+        };
+
+        function toggleSoldOut(id) {
+            products = products.map(p => p.id === id ? {...p, isSoldOut: !p.isSoldOut} : p);
+            save();
+        }
+
+        function editPrice(id) {
+            const newPrice = prompt("Enter new price:");
+            if (newPrice && !isNaN(newPrice)) {
+                products = products.map(p => p.id === id ? {...p, price: parseFloat(newPrice)} : p);
+                save();
+            }
+        }
+
+        function deleteProd(id) {
+            if(confirm('Delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                save();
+            }
+        }
+
+        function save() {
+            localStorage.setItem('coode_products', JSON.stringify(products));
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('product-list');
+            container.innerHTML = products.map(p => `
+                <div class="bg-white p-4 rounded-xl border flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <img src="${p.img}" class="w-12 h-12 object-cover rounded bg-gray-100">
+                        <div>
+                            <h3 class="text-xs font-black uppercase tracking-tight">${p.name}</h3>
+                            <p class="text-[10px] text-gray-400 font-bold">$${p.price.toFixed(2)} | ${p.category}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="toggleSoldOut(${p.id})" class="px-3 py-1 text-[8px] font-bold border rounded uppercase ${p.isSoldOut ? 'bg-red-500 text-white' : 'bg-green-50 text-green-600'}">
+                            ${p.isSoldOut ? 'Sold Out' : 'Active'}
+                        </button>
+                        <button onclick="editPrice(${p.id})" class="px-3 py-1 text-[8px] font-bold border rounded uppercase hover:bg-gray-50">Price</button>
+                        <button onclick="deleteProd(${p.id})" class="px-3 py-1 text-[8px] font-bold border border-red-100 text-red-500 rounded uppercase hover:bg-red-50">Delete</button>
+                    </div>
+                </div>
+            `).reverse().join('');
+        }
+    </script>
+</body>
+</html>

@@ -99,11 +99,11 @@
             </div>
             <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-[120px] md:max-w-xs pointer-events-none">
                 <div id="info-ticker" class="text-[10px] md:text-xs font-bold text-gray-500 text-center uppercase tracking-widest">
-                    <div class="info-slide">New Drop</div>
-                    <div class="info-slide">COODE</div>
+                    <div class="info-slide">New Drop This Week</div>
+                    <div class="info-slide">COODE — Built Different</div>
                     <div class="info-slide">Designed for the Future</div>
-                    <div class="info-slide">60 % off.</div>
-                    <div class="info-slide">Worldwide.</div>
+                    <div class="info-slide">Minimal. Bold. Timeless.</div>
+                    <div class="info-slide">Worldwide Vision. Local Roots.</div>
                 </div>
             </div>
             <div class="ml-auto flex items-center space-x-4 md:space-x-8">
@@ -127,38 +127,20 @@
     <main>
         <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-24" id="product-grid">
             <script>
-                <script>
-    // 1. Load products from localStorage or defaults
-    const DEFAULT_PRODUCTS = [
-        { id: 1, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png", isSoldOut: false, isLimited: false },
-        { id: 2, name: "COODE Black Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png", isSoldOut: false, isLimited: false },
-        { id: 9, name: "COODE Base Cap - Blue", category: "Cap", price: 25.00, img: "assets/images/cap-blue.png", isSoldOut: false, isLimited: false },
-        { id: 10, name: "COODE Base Cap - Red", category: "Cap", price: 25.00, img: "assets/images/cap-Red.png", isSoldOut: false, isLimited: false }
-    ];
-    
-    const products = JSON.parse(localStorage.getItem('coode_products')) || DEFAULT_PRODUCTS;
-
-    // 2. Render normal products (excluding limited ones which appear in the bottom section)
-    document.write(products.filter(p => !p.isLimited).map(p => `
-        <div id="prod-${p.id}" class="product-card group flex flex-col relative">
-            <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
-                <img src="${p.img}" class="w-full h-full object-cover ${p.isSoldOut ? 'opacity-40 grayscale' : ''}">
-                
-                ${p.isSoldOut ? 
-                    `<div class="absolute inset-0 flex items-center justify-center">
-                        <span class="bg-black text-white px-4 py-2 text-[10px] font-black tracking-[0.3em] uppercase">Sold Out</span>
-                    </div>` 
-                    : 
-                    `<button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">ADD TO CART</button>`
-                }
-            </div>
-            <div class="mt-4">
-                <h3 class="text-sm font-bold uppercase tracking-tight">${p.name}</h3>
-                <p class="text-gray-500 text-sm italic font-black tracking-tighter">$${p.price.toFixed(2)}</p>
-            </div>
-        </div>
-    `).join(''));
-</script>
+                const products = [
+                    { id: 1, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-1.png" },
+                    { id: 2, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-2.png" },
+                    { id: 3, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-3.png" },
+                    { id: 4, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-4.png" },
+                    { id: 5, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-1.png" },
+                    { id: 6, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-2.png" },
+                    { id: 7, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-3.png" },
+                    { id: 8, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-4.png" },
+                    { id: 9, name: "COODE Base Cap - Blue", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-blue.png" },
+                    { id: 10, name: "COODE Base Cap - Red", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Red.png" },
+                    { id: 11, name: "COODE Base Cap - Brown", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Brown.png" },
+                    { id: 12, name: "COODE Base Cap - Green", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Green.png" }
+                ];
                 document.write(products.map(p => `
                     <div id="prod-${p.id}" class="product-card group flex flex-col">
                         <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">

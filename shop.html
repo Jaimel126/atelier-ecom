@@ -25,9 +25,42 @@
         .glow-blue:hover { box-shadow: inset 0 0 50px rgba(59, 130, 246, 0.1); }
         .glow-red:hover { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.1); }
         .glow-black:hover { box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.05); }
+
+        /* NEW: Size Selector Styles */
+        .size-btn.active { background-color: black; color: white; border-color: black; }
+        #size-guide-modal { transition: opacity 0.3s ease; }
     </style>
 </head>
 <body class="bg-white text-black font-sans antialiased">
+
+    <div id="size-guide-modal" class="fixed inset-0 z-[300] hidden items-end md:items-center justify-center p-0 md:p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleSizeGuide()"></div>
+        <div class="relative bg-white w-full max-w-xl rounded-t-3xl md:rounded-2xl p-8 shadow-2xl overflow-hidden animate-slide-up">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black italic tracking-tighter">SIZE GUIDE</h2>
+                <button onclick="toggleSizeGuide()" class="text-3xl font-light">&times;</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs uppercase tracking-widest font-bold">
+                    <thead>
+                        <tr class="border-b-2 border-black">
+                            <th class="py-4">Size</th>
+                            <th class="py-4">Chest (cm)</th>
+                            <th class="py-4">Length (cm)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr><td class="py-4">XS</td><td class="py-4">98</td><td class="py-4">68</td></tr>
+                        <tr><td class="py-4">S</td><td class="py-4">104</td><td class="py-4">70</td></tr>
+                        <tr><td class="py-4">M</td><td class="py-4">110</td><td class="py-4">72</td></tr>
+                        <tr><td class="py-4">L</td><td class="py-4">116</td><td class="py-4">74</td></tr>
+                        <tr><td class="py-4">XL</td><td class="py-4">122</td><td class="py-4">76</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-8 text-[10px] text-gray-400 leading-relaxed tracking-widest uppercase">Measurements are provided for reference. Fit may vary depending on the silhouette of the garment.</p>
+        </div>
+    </div>
 
     <div id="mobile-nav-overlay" class="fixed inset-0 z-[200] bg-white flex flex-col md:hidden">
         <div class="h-16 flex items-center justify-between px-4 border-b">
@@ -141,15 +174,37 @@
                     { id: 11, name: "COODE Base Cap - Brown", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Brown.png" },
                     { id: 12, name: "COODE Base Cap - Green", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Green.png" }
                 ];
+                
+                // NEW: SIZE SELECTOR RENDERER
+                function renderSizeSelector(productId, category) {
+                    if (category !== 'Tshirt' && category !== 'Jersey') return '';
+                    return `
+                        <div class="mt-4 flex flex-col space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[9px] font-bold uppercase tracking-widest text-gray-400">Select Size</span>
+                                <button onclick="toggleSizeGuide()" class="text-[9px] font-bold uppercase tracking-widest border-b border-black">Size Guide</button>
+                            </div>
+                            <div class="flex gap-1" id="size-wrap-${productId}">
+                                ${['XS', 'S', 'M', 'L', 'XL'].map(s => `
+                                    <button onclick="selectSize(${productId}, '${s}')" 
+                                            class="size-btn-${productId} size-btn w-8 h-8 flex items-center justify-center border border-gray-200 text-[10px] font-bold transition-all hover:border-black"
+                                            data-size="${s}">${s}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
                 document.write(products.map(p => `
                     <div id="prod-${p.id}" class="product-card group flex flex-col">
                         <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
                             <img src="${p.img}" class="w-full h-full object-cover">
-                            <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">ADD TO CART</button>
+                            <button onclick="handleAddToCartClick(${p.id}, '${p.name}', ${p.price}, '${p.img}', '${p.category}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">ADD TO CART</button>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-sm font-bold uppercase tracking-tight">${p.name}</h3>
                             <p class="text-gray-500 text-sm italic font-black tracking-tighter">$${p.price.toFixed(2)}</p>
+                            ${renderSizeSelector(p.id, p.category)}
                         </div>
                     </div>
                 `).join(''));
@@ -172,33 +227,87 @@
             </div>
             
             <div class="flex flex-col">
-                <div onclick="addToCart('COODE Jersey - Blue', 85.00, 'assets/images/jersey-blue.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-blue">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
+                <div class="relative border-b border-gray-100 group overflow-hidden transition-all glow-blue">
+                    <div class="max-w-7xl mx-auto min-h-[400px] px-6 py-12 flex flex-col md:flex-row items-center justify-between">
+                        <div class="z-10 text-center md:text-left">
                             <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Blue</h3>
-                            <p class="text-xs font-bold tracking-widest text-blue-500 uppercase">Available Now</p>
+                            <p class="text-xs font-bold tracking-widest text-blue-500 uppercase mb-6">Available Now</p>
+                            
+                            <div class="bg-white/80 p-6 rounded-2xl backdrop-blur-sm border border-gray-100 inline-block">
+                                <div class="flex flex-col space-y-4">
+                                    <div class="flex justify-between items-center gap-12">
+                                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Select Size</span>
+                                        <button onclick="toggleSizeGuide()" class="text-[10px] font-black uppercase border-b border-black">Size Guide</button>
+                                    </div>
+                                    <div class="flex gap-2" id="size-wrap-101">
+                                        ${['XS', 'S', 'M', 'L', 'XL'].map(s => `
+                                            <button onclick="selectSize(101, '${s}')" 
+                                                    class="size-btn-101 size-btn w-12 h-12 flex items-center justify-center border-2 border-gray-100 text-xs font-black transition-all hover:border-black"
+                                                    data-size="${s}">${s}</button>
+                                        `).join('')}
+                                    </div>
+                                    <button onclick="handleAddToCartClick(101, 'COODE Jersey - Blue', 85.00, 'assets/images/jersey-blue.png', 'Jersey')" 
+                                            class="w-full bg-black text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-[1.02] transition-transform">Add to Bag</button>
+                                </div>
+                            </div>
                         </div>
-                        <img src="assets/images/jersey-blue.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                        <img src="assets/images/jersey-blue.png" class="md:absolute right-0 top-1/2 md:-translate-y-1/2 h-[300px] md:h-[110%] object-contain group-hover:rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100 mt-8 md:mt-0">
                     </div>
                 </div>
 
-                <div onclick="addToCart('COODE Jersey - Red', 85.00, 'assets/images/jersey-red.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-red">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
+                <div class="relative border-b border-gray-100 group overflow-hidden transition-all glow-red">
+                    <div class="max-w-7xl mx-auto min-h-[400px] px-6 py-12 flex flex-col md:flex-row items-center justify-between">
+                        <div class="z-10 text-center md:text-left">
                             <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Red</h3>
-                            <p class="text-xs font-bold tracking-widest text-red-500 uppercase">Available Now</p>
+                            <p class="text-xs font-bold tracking-widest text-red-500 uppercase mb-6">Available Now</p>
+                            
+                            <div class="bg-white/80 p-6 rounded-2xl backdrop-blur-sm border border-gray-100 inline-block">
+                                <div class="flex flex-col space-y-4">
+                                    <div class="flex justify-between items-center gap-12">
+                                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Select Size</span>
+                                        <button onclick="toggleSizeGuide()" class="text-[10px] font-black uppercase border-b border-black">Size Guide</button>
+                                    </div>
+                                    <div class="flex gap-2" id="size-wrap-102">
+                                        ${['XS', 'S', 'M', 'L', 'XL'].map(s => `
+                                            <button onclick="selectSize(102, '${s}')" 
+                                                    class="size-btn-102 size-btn w-12 h-12 flex items-center justify-center border-2 border-gray-100 text-xs font-black transition-all hover:border-black"
+                                                    data-size="${s}">${s}</button>
+                                        `).join('')}
+                                    </div>
+                                    <button onclick="handleAddToCartClick(102, 'COODE Jersey - Red', 85.00, 'assets/images/jersey-red.png', 'Jersey')" 
+                                            class="w-full bg-black text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-[1.02] transition-transform">Add to Bag</button>
+                                </div>
+                            </div>
                         </div>
-                        <img src="assets/images/jersey-red.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:-rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                        <img src="assets/images/jersey-red.png" class="md:absolute right-0 top-1/2 md:-translate-y-1/2 h-[300px] md:h-[110%] object-contain group-hover:-rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100 mt-8 md:mt-0">
                     </div>
                 </div>
 
-                <div onclick="addToCart('COODE Jersey - Black', 85.00, 'assets/images/jersey-black.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-black">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
+                <div class="relative border-b border-gray-100 group overflow-hidden transition-all glow-black">
+                    <div class="max-w-7xl mx-auto min-h-[400px] px-6 py-12 flex flex-col md:flex-row items-center justify-between">
+                        <div class="z-10 text-center md:text-left">
                             <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Black</h3>
-                            <p class="text-xs font-bold tracking-widest text-gray-400 uppercase">Available Now</p>
+                            <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-6">Available Now</p>
+                            
+                            <div class="bg-white/80 p-6 rounded-2xl backdrop-blur-sm border border-gray-100 inline-block">
+                                <div class="flex flex-col space-y-4">
+                                    <div class="flex justify-between items-center gap-12">
+                                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Select Size</span>
+                                        <button onclick="toggleSizeGuide()" class="text-[10px] font-black uppercase border-b border-black">Size Guide</button>
+                                    </div>
+                                    <div class="flex gap-2" id="size-wrap-103">
+                                        ${['XS', 'S', 'M', 'L', 'XL'].map(s => `
+                                            <button onclick="selectSize(103, '${s}')" 
+                                                    class="size-btn-103 size-btn w-12 h-12 flex items-center justify-center border-2 border-gray-100 text-xs font-black transition-all hover:border-black"
+                                                    data-size="${s}">${s}</button>
+                                        `).join('')}
+                                    </div>
+                                    <button onclick="handleAddToCartClick(103, 'COODE Jersey - Black', 85.00, 'assets/images/jersey-black.png', 'Jersey')" 
+                                            class="w-full bg-black text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-[1.02] transition-transform">Add to Bag</button>
+                                </div>
+                            </div>
                         </div>
-                        <img src="assets/images/jersey-black.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                        <img src="assets/images/jersey-black.png" class="md:absolute right-0 top-1/2 md:-translate-y-1/2 h-[300px] md:h-[110%] object-contain group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100 mt-8 md:mt-0">
                     </div>
                 </div>
             </div>
@@ -219,103 +328,3 @@
     <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[110] shadow-2xl translate-x-full slide-transition flex flex-col">
         <div class="p-6 border-b flex justify-between items-center">
             <h2 class="text-xl font-black italic tracking-tighter uppercase">Your Cart</h2>
-            <div class="flex items-center space-x-4">
-                <button onclick="clearFullCart()" class="text-xs font-bold text-red-500 hover:text-red-700 transition uppercase">Clear</button>
-                <button onclick="closeCart()" class="text-gray-400 text-2xl">&times;</button>
-            </div>
-        </div>
-        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
-        <div class="p-6 border-t bg-gray-50">
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-xs tracking-widest font-bold uppercase text-gray-500">Subtotal</span>
-                <span id="cart-subtotal" class="text-2xl font-black italic tracking-tighter">$0.00</span>
-            </div>
-            <button class="w-full bg-black text-white py-4 rounded-full font-black tracking-widest text-xs uppercase hover:bg-gray-800 transition">Checkout</button>
-        </div>
-    </div>
-
-    <div id="contactModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl">
-            <h2 class="text-2xl font-black italic mb-6">CONTACT COODE</h2>
-            <form onsubmit="alert('Thank you!'); closeModal(); return false;" class="space-y-4">
-                <input type="text" placeholder="Name" required class="w-full border-b py-2 outline-none focus:border-black transition">
-                <input type="email" placeholder="Email" required class="w-full border-b py-2 outline-none focus:border-black transition">
-                <textarea placeholder="Message" required class="w-full border-b py-2 outline-none focus:border-black transition"></textarea>
-                <button type="submit" class="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs">Send</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function toggleMobileMenu() {
-            document.getElementById('mobile-nav-overlay').classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
-        }
-
-        let cart = JSON.parse(localStorage.getItem('coode_cart')) || [];
-        function clearFullCart() { if (cart.length > 0 && confirm("Empty your cart?")) { cart = []; saveAndSync(); } }
-        function openCart() { document.getElementById('cart-overlay').classList.remove('hidden'); document.getElementById('cart-panel').classList.remove('translate-x-full'); renderCart(); }
-        function closeCart() { document.getElementById('cart-overlay').classList.add('hidden'); document.getElementById('cart-panel').classList.add('translate-x-full'); }
-        function addToCart(name, price, img) {
-            const item = cart.find(i => i.name === name);
-            if (item) item.qty++; else cart.push({ name, price, img, qty: 1 });
-            saveAndSync(); openCart();
-        }
-        function updateQty(index, delta) { cart[index].qty += delta; if (cart[index].qty <= 0) cart.splice(index, 1); saveAndSync(); }
-        function saveAndSync() { localStorage.setItem('coode_cart', JSON.stringify(cart)); renderCart(); updateCartBadge(); }
-        function updateCartBadge() {
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cart-count').innerText = count;
-            document.getElementById('cart-count').classList.toggle('hidden', count === 0);
-            document.getElementById('mobile-cart-count').innerText = count;
-            document.getElementById('mobile-cart-count').classList.toggle('hidden', count === 0);
-        }
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            let total = 0;
-            if (cart.length === 0) { container.innerHTML = `<div class="text-center py-20 text-gray-400 italic text-sm uppercase">Bag is empty</div>`; }
-            else {
-                container.innerHTML = cart.map((item, i) => {
-                    total += item.price * item.qty;
-                    return `<div class="flex items-center space-x-4 border-b pb-4"><img src="${item.img}" class="w-16 h-20 object-cover rounded bg-gray-100"><div class="flex-1"><h4 class="text-[10px] font-black uppercase">${item.name}</h4><div class="flex items-center space-x-3 mt-2"><div class="flex items-center border rounded-full px-2"><button onclick="updateQty(${i}, -1)" class="px-2 text-gray-400">-</button><span class="text-[10px] font-bold w-4 text-center">${item.qty}</span><button onclick="updateQty(${i}, 1)" class="px-2 text-gray-400">+</button></div></div></div><span class="text-xs font-black italic">$${(item.price * item.qty).toFixed(2)}</span></div>`;
-                }).join('');
-            }
-            document.getElementById('cart-subtotal').innerText = `$${total.toFixed(2)}`;
-        }
-
-        const overlay = document.getElementById('search-overlay');
-        const searchInput = document.getElementById('premium-search-input');
-        const ghostText = document.getElementById('search-suggestion');
-        const resultsGrid = document.getElementById('live-results-grid');
-
-        function openSearch() { overlay.classList.remove('invisible', 'opacity-0'); searchInput.focus(); handleLiveSearch(''); }
-        function closeSearch() { overlay.classList.add('invisible', 'opacity-0'); searchInput.value = ''; ghostText.innerText = ''; }
-        function handleLiveSearch(val) {
-            const query = val.toLowerCase().trim();
-            const filtered = query === '' ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
-            const limit = window.innerWidth > 768 ? 8 : 6;
-            resultsGrid.innerHTML = filtered.slice(0, limit).map(p => `<div onclick="navigateToProduct(${p.id})" class="live-result-card cursor-pointer flex flex-col group"><div class="aspect-square bg-gray-50 overflow-hidden rounded-sm mb-1"><img src="${p.img}" class="w-full h-full object-cover"></div><h4 class="text-[8px] font-bold uppercase truncate">${p.name}</h4><p class="text-[8px] text-gray-400 font-bold">$${p.price.toFixed(2)}</p></div>`).join('');
-            if (query.length > 0) {
-                const suggestion = products.find(p => p.name.toLowerCase().startsWith(query));
-                if (suggestion) ghostText.innerText = val + suggestion.name.toLowerCase().substring(query.length); else ghostText.innerText = '';
-            } else ghostText.innerText = '';
-        }
-        function handleSearchKeyDown(e) { if (e.key === 'Tab' && ghostText.innerText) { e.preventDefault(); searchInput.value = ghostText.innerText; } if (e.key === 'Enter') { const match = products.find(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase())); if (match) navigateToProduct(match.id); } if (e.key === 'Escape') closeSearch(); }
-        function navigateToProduct(id) { closeSearch(); const el = document.getElementById('prod-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-
-        window.addEventListener('load', () => { if (!localStorage.getItem('coode_visited')) document.getElementById('welcome-popup').classList.replace('hidden', 'flex'); });
-        function acceptWelcome() { localStorage.setItem('coode_visited', 'true'); document.getElementById('welcome-popup').classList.replace('flex', 'hidden'); }
-        function handleSignup(e) { e.preventDefault(); document.getElementById('signup-email').value = ''; const msg = document.getElementById('signup-msg'); msg.classList.remove('hidden'); setTimeout(() => msg.classList.add('hidden'), 3000); }
-        
-        const slides = document.querySelectorAll('#info-ticker .info-slide');
-        let currentSlide = 0;
-        setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; slides.forEach((s) => { s.style.transform = `translateY(-${currentSlide * 24}px)`; }); }, 7000);
-
-        function openModal() { document.getElementById('contactModal').classList.replace('hidden', 'flex'); }
-        function closeModal() { document.getElementById('contactModal').classList.replace('flex', 'hidden'); }
-
-        updateCartBadge();
-    </script>
-</body>
-</html>

@@ -127,20 +127,30 @@
     <main>
         <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-24" id="product-grid">
             <script>
-                const products = [
-                    { id: 1, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-1.png" },
-                    { id: 2, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-2.png" },
-                    { id: 3, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-3.png" },
-                    { id: 4, name: "COODE White Tshirt", category: "Tshirt", keywords: ["top", "basic"], price: 9.99, img: "assets/images/shirt-white-4.png" },
-                    { id: 5, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-1.png" },
-                    { id: 6, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-2.png" },
-                    { id: 7, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-3.png" },
-                    { id: 8, name: "COODE Black Tshirt", category: "Tshirt", keywords: ["top", "dark"], price: 9.99, img: "assets/images/shirt-black-4.png" },
-                    { id: 9, name: "COODE Base Cap - Blue", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-blue.png" },
-                    { id: 10, name: "COODE Base Cap - Red", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Red.png" },
-                    { id: 11, name: "COODE Base Cap - Brown", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Brown.png" },
-                    { id: 12, name: "COODE Base Cap - Green", category: "Cap", keywords: ["hat", "accessory"], price: 25.00, img: "assets/images/cap-Green.png" }
-                ];
+                // Load from Admin or use Defaults
+const DEFAULTS = [
+    { id: 1, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png", isLimited: false, isSoldOut: false },
+    { id: 2, name: "COODE Black Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-black-1.png", isLimited: false, isSoldOut: false },
+    { id: 9, name: "COODE Base Cap - Blue", category: "Cap", price: 25.00, img: "assets/images/cap-blue.png", isLimited: false, isSoldOut: false },
+];
+const products = JSON.parse(localStorage.getItem('coode_products')) || DEFAULTS;
+
+// Render Normal Products
+document.write(products.filter(p => !p.isLimited).map(p => `
+    <div id="prod-${p.id}" class="product-card group flex flex-col relative">
+        <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
+            <img src="${p.img}" class="w-full h-full object-cover ${p.isSoldOut ? 'opacity-40 grayscale' : ''}">
+            ${p.isSoldOut ? 
+                `<div class="absolute inset-0 flex items-center justify-center"><span class="bg-black text-white px-4 py-2 text-[10px] font-black uppercase">SOLD OUT</span></div>` : 
+                `<button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">ADD TO CART</button>`
+            }
+        </div>
+        <div class="mt-4">
+            <h3 class="text-sm font-bold uppercase tracking-tight">${p.name}</h3>
+            <p class="text-gray-500 text-sm italic font-black tracking-tighter">$${p.price.toFixed(2)}</p>
+        </div>
+    </div>
+`).join(''));
                 document.write(products.map(p => `
                     <div id="prod-${p.id}" class="product-card group flex flex-col">
                         <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
@@ -168,41 +178,46 @@
         <section class="py-10 md:py-0 border-t border-gray-100 bg-white">
             <div class="px-6 py-8 text-center">
                 <span class="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase">Limited Release</span>
-                <h2 class="text-2xl font-black italic tracking-tighter uppercase mt-1">Shop Jerseys</h2>
+                <div class="flex flex-col">
+    <div onclick="const p = (JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Blue'); if(p?.isSoldOut) return; addToCart('COODE Jersey - Blue', 85.00, 'assets/images/jersey-blue.png')" 
+         class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-blue ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Blue')?.isSoldOut ? 'opacity-50 grayscale pointer-events-none' : ''}">
+        <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+            <div class="z-10">
+                <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Blue</h3>
+                <p class="text-xs font-bold tracking-widest uppercase ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Blue')?.isSoldOut ? 'text-red-500' : 'text-blue-500'}">
+                    ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Blue')?.isSoldOut ? 'SOLD OUT' : 'Available Now'}
+                </p>
             </div>
-            
-            <div class="flex flex-col">
-                <div onclick="addToCart('COODE Jersey - Blue', 85.00, 'assets/images/jersey-blue.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-blue">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
-                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Blue</h3>
-                            <p class="text-xs font-bold tracking-widest text-blue-500 uppercase">Available Now</p>
-                        </div>
-                        <img src="assets/images/jersey-blue.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
-                    </div>
-                </div>
+            <img src="assets/images/jersey-blue.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+        </div>
+    </div>
 
-                <div onclick="addToCart('COODE Jersey - Red', 85.00, 'assets/images/jersey-red.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-red">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
-                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Red</h3>
-                            <p class="text-xs font-bold tracking-widest text-red-500 uppercase">Available Now</p>
-                        </div>
-                        <img src="assets/images/jersey-red.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:-rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
-                    </div>
-                </div>
-
-                <div onclick="addToCart('COODE Jersey - Black', 85.00, 'assets/images/jersey-black.png')" class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-black">
-                    <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-                        <div class="z-10">
-                            <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Black</h3>
-                            <p class="text-xs font-bold tracking-widest text-gray-400 uppercase">Available Now</p>
-                        </div>
-                        <img src="assets/images/jersey-black.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100">
-                    </div>
-                </div>
+    <div onclick="const p = (JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Red'); if(p?.isSoldOut) return; addToCart('COODE Jersey - Red', 85.00, 'assets/images/jersey-red.png')" 
+         class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-red ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Red')?.isSoldOut ? 'opacity-50 grayscale pointer-events-none' : ''}">
+        <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+            <div class="z-10">
+                <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Red</h3>
+                <p class="text-xs font-bold tracking-widest uppercase ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Red')?.isSoldOut ? 'text-red-500' : 'text-red-500'}">
+                    ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Red')?.isSoldOut ? 'SOLD OUT' : 'Available Now'}
+                </p>
             </div>
-        </section>
+            <img src="assets/images/jersey-red.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:-rotate-3 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+        </div>
+    </div>
+
+    <div onclick="const p = (JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Black'); if(p?.isSoldOut) return; addToCart('COODE Jersey - Black', 85.00, 'assets/images/jersey-black.png')" 
+         class="relative h-[250px] md:h-[400px] border-b border-gray-100 group cursor-pointer overflow-hidden transition-all glow-black ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Black')?.isSoldOut ? 'opacity-50 grayscale pointer-events-none' : ''}">
+        <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+            <div class="z-10">
+                <h3 class="text-4xl md:text-6xl font-black italic tracking-tighter uppercase">Black</h3>
+                <p class="text-xs font-bold tracking-widest uppercase ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Black')?.isSoldOut ? 'text-red-500' : 'text-gray-400'}">
+                    ${(JSON.parse(localStorage.getItem('coode_products')) || []).find(x => x.name === 'COODE Jersey - Black')?.isSoldOut ? 'SOLD OUT' : 'Available Now'}
+                </p>
+            </div>
+            <img src="assets/images/jersey-black.png" class="absolute right-0 top-1/2 -translate-y-1/2 h-[90%] md:h-[110%] object-contain group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+        </div>
+    </div>
+</div>
 
         <section class="py-32 bg-gray-50 text-center px-4">
             <h2 class="text-3xl font-black italic tracking-tighter uppercase mb-2">Join the COODE Club</h2>

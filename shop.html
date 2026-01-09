@@ -166,8 +166,6 @@
         </div>
     `).join(''));
 </script>
-const products = JSON.parse(localStorage.getItem('coode_products')) || DEFAULTS;
-
 // Render Normal Products
 document.write(products.filter(p => !p.isLimited).map(p => `
     <div id="prod-${p.id}" class="product-card group flex flex-col relative">

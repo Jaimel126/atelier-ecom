@@ -1,0 +1,148 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "COODE White Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-white-1.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["White"]
+    },
+    {
+      "id": 2,
+      "name": "COODE White Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-white-2.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["White"]
+    },
+    {
+      "id": 3,
+      "name": "COODE White Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-white-3.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["White"]
+    },
+    {
+      "id": 4,
+      "name": "COODE White Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-white-4.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["White"]
+    },
+    {
+      "id": 5,
+      "name": "COODE Black Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-black-1.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Black"]
+    },
+    {
+      "id": 6,
+      "name": "COODE Black Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-black-2.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Black"]
+    },
+    {
+      "id": 7,
+      "name": "COODE Black Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-black-3.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Black"]
+    },
+    {
+      "id": 8,
+      "name": "COODE Black Tshirt",
+      "category": "Tshirt",
+      "price": 9.99,
+      "image": "assets/images/shirt-black-4.png",
+      "availableSizes": ["XS", "S", "M", "L", "XL"],
+      "colors": ["Black"]
+    },
+    {
+      "id": 9,
+      "name": "COODE Base Cap - Blue",
+      "category": "Cap",
+      "price": 25.00,
+      "image": "assets/images/cap-blue.png",
+      "availableSizes": [],
+      "colors": ["Blue"]
+    },
+    {
+      "id": 10,
+      "name": "COODE Base Cap - Red",
+      "category": "Cap",
+      "price": 25.00,
+      "image": "assets/images/cap-Red.png",
+      "availableSizes": [],
+      "colors": ["Red"]
+    },
+    {
+      "id": 11,
+      "name": "COODE Base Cap - Brown",
+      "category": "Cap",
+      "price": 25.00,
+      "image": "assets/images/cap-Brown.png",
+      "availableSizes": [],
+      "colors": ["Brown"]
+    },
+    {
+      "id": 12,
+      "name": "COODE Base Cap - Green",
+      "category": "Cap",
+      "price": 25.00,
+      "image": "assets/images/cap-Green.png",
+      "availableSizes": [],
+      "colors": ["Green"]
+    },
+    {
+      "id": 999,
+      "name": "COODE Signature Bag",
+      "category": "Bag",
+      "price": 1500.00,
+      "image": "assets/images/coode-bag.png.png",
+      "availableSizes": [],
+      "colors": []
+    },
+    {
+      "id": 101,
+      "name": "COODE Jersey - Blue",
+      "category": "Jersey",
+      "price": 85.00,
+      "image": "assets/images/jersey-blue.png",
+      "availableSizes": ["M", "L"],
+      "colors": ["Blue"]
+    },
+    {
+      "id": 102,
+      "name": "COODE Jersey - Red",
+      "category": "Jersey",
+      "price": 85.00,
+      "image": "assets/images/jersey-red.png",
+      "availableSizes": ["M", "L"],
+      "colors": ["Red"]
+    },
+    {
+      "id": 103,
+      "name": "COODE Jersey - Black",
+      "category": "Jersey",
+      "price": 85.00,
+      "image": "assets/images/jersey-black.png",
+      "availableSizes": ["M", "L"],
+      "colors": ["Black"]
+    }
+  ]
+}

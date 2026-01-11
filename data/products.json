@@ -8,6 +8,6 @@
   {"id":7,"name":"Black Shirt 2","price":9.99,"description":"Sample black shirt","image":"assets/images/black2.png","category":"Shirts"},
   {"id":8,"name":"Black Shirt 3","price":9.99,"description":"Sample black shirt","image":"assets/images/black3.png","category":"Shirts"},
   {"id":9,"name":"Black Shirt 4","price":9.99,"description":"Sample black shirt","image":"assets/images/black4.png","category":"Shirts"},
-  {"id":10,"name":"Black Shirt 5","price":9.99,"description":"Sample black shirt","image":"assets/images/black5.png","category":"Shirts"}
+  {"id":10,"name":"Black Shirt 5","price":10.99,"description":"Sample black shirt","image":"assets/images/black5.png","category":"Shirts"}
 ]
 

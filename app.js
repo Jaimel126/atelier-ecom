@@ -32,3 +32,32 @@ fetch("products.json")
   })
   .catch(err => console.error("Failed to load products:", err));
 
+function renderProducts(products) {
+  const container = document.getElementById("products");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  products.forEach(product => {
+    container.innerHTML += `
+      <div class="product-card" data-id="${product.id}">
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>$${product.price}.00</p>
+
+        ${
+          product.sizes.length
+            ? `<select class="size-select">
+                <option value="">Size</option>
+                ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join("")}
+              </select>`
+            : ""
+        }
+
+        <button class="add-to-cart" data-id="${product.id}">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}

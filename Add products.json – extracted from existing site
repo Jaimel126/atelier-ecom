@@ -6,8 +6,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-white-1.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["White"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "White"
+      ],
+      "active": true
     },
     {
       "id": 2,
@@ -15,8 +24,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-white-2.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["White"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "White"
+      ],
+      "active": true
     },
     {
       "id": 3,
@@ -24,8 +42,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-white-3.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["White"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "White"
+      ],
+      "active": true
     },
     {
       "id": 4,
@@ -33,8 +60,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-white-4.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["White"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "White"
+      ],
+      "active": true
     },
     {
       "id": 5,
@@ -42,8 +78,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-black-1.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Black"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "active": true
     },
     {
       "id": 6,
@@ -51,8 +96,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-black-2.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Black"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "active": true
     },
     {
       "id": 7,
@@ -60,8 +114,17 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-black-3.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Black"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "active": true
     },
     {
       "id": 8,
@@ -69,80 +132,120 @@
       "category": "Tshirt",
       "price": 9.99,
       "image": "assets/images/shirt-black-4.png",
-      "availableSizes": ["XS", "S", "M", "L", "XL"],
-      "colors": ["Black"]
+      "availableSizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "active": true
     },
     {
       "id": 9,
       "name": "COODE Base Cap - Blue",
       "category": "Cap",
-      "price": 25.00,
+      "price": 25.0,
       "image": "assets/images/cap-blue.png",
       "availableSizes": [],
-      "colors": ["Blue"]
+      "colors": [
+        "Blue"
+      ],
+      "active": true
     },
     {
       "id": 10,
       "name": "COODE Base Cap - Red",
       "category": "Cap",
-      "price": 25.00,
+      "price": 25.0,
       "image": "assets/images/cap-Red.png",
       "availableSizes": [],
-      "colors": ["Red"]
+      "colors": [
+        "Red"
+      ],
+      "active": true
     },
     {
       "id": 11,
       "name": "COODE Base Cap - Brown",
       "category": "Cap",
-      "price": 25.00,
+      "price": 25.0,
       "image": "assets/images/cap-Brown.png",
       "availableSizes": [],
-      "colors": ["Brown"]
+      "colors": [
+        "Brown"
+      ],
+      "active": true
     },
     {
       "id": 12,
       "name": "COODE Base Cap - Green",
       "category": "Cap",
-      "price": 25.00,
+      "price": 25.0,
       "image": "assets/images/cap-Green.png",
       "availableSizes": [],
-      "colors": ["Green"]
+      "colors": [
+        "Green"
+      ],
+      "active": true
     },
     {
       "id": 999,
       "name": "COODE Signature Bag",
       "category": "Bag",
-      "price": 1500.00,
+      "price": 1500.0,
       "image": "assets/images/coode-bag.png.png",
       "availableSizes": [],
-      "colors": []
+      "colors": [],
+      "active": true
     },
     {
       "id": 101,
       "name": "COODE Jersey - Blue",
       "category": "Jersey",
-      "price": 85.00,
+      "price": 85.0,
       "image": "assets/images/jersey-blue.png",
-      "availableSizes": ["M", "L"],
-      "colors": ["Blue"]
+      "availableSizes": [
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "active": true
     },
     {
       "id": 102,
       "name": "COODE Jersey - Red",
       "category": "Jersey",
-      "price": 85.00,
+      "price": 85.0,
       "image": "assets/images/jersey-red.png",
-      "availableSizes": ["M", "L"],
-      "colors": ["Red"]
+      "availableSizes": [
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "active": true
     },
     {
       "id": 103,
       "name": "COODE Jersey - Black",
       "category": "Jersey",
-      "price": 85.00,
+      "price": 85.0,
       "image": "assets/images/jersey-black.png",
-      "availableSizes": ["M", "L"],
-      "colors": ["Black"]
+      "availableSizes": [
+        "M",
+        "L"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "active": true
     }
   ]
 }

@@ -92,7 +92,36 @@
     <main>
         <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 scroll-mt-24" id="product-grid">
             <script>
-                const products = [
+            <script>
+let products = [];
+
+fetch('products.json')
+  .then(res => res.json())
+  .then(data => {
+    products = data;
+    renderProducts();
+  });
+
+function renderProducts() {
+    document.write(products.map(p => `
+        <div id="prod-${p.id}" class="product-card group flex flex-col">
+            <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden relative">
+                <img src="${p.img}" class="w-full h-full object-cover">
+                <button onclick="handleAddToCartClick(${p.id}, '${p.name}', ${p.price}, '${p.img}', '${p.category}')"
+                    class="absolute bottom-4 left-4 right-4 bg-black text-white py-3 text-xs font-bold opacity-0 group-hover:opacity-100 transition">
+                    ADD TO CART
+                </button>
+            </div>
+            <div class="mt-4">
+                <h3 class="text-sm font-bold uppercase">${p.name}</h3>
+                <p class="text-gray-500 text-sm font-black italic">$${p.price.toFixed(2)}</p>
+                ${renderSizeSelector(p.id, p.category)}
+            </div>
+        </div>
+    `).join(''));
+}
+</script>
+
                     { id: 1, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-1.png" },
                     { id: 2, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-2.png" },
                     { id: 3, name: "COODE White Tshirt", category: "Tshirt", price: 9.99, img: "assets/images/shirt-white-3.png" },

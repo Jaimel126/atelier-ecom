@@ -22,4 +22,13 @@ fetch("data/brand.json")
   .catch(error => {
     console.error("Brand config failed to load:", error);
   });
+let PRODUCTS = [];
+
+fetch("products.json")
+  .then(res => res.json())
+  .then(data => {
+    PRODUCTS = data;
+    renderProducts(PRODUCTS);
+  })
+  .catch(err => console.error("Failed to load products:", err));
 
